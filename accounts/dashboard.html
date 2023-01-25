@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!--required meta tags-->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--twitter og-->
+    <meta name="twitter:site" content="@themetags" />
+    <meta name="twitter:creator" content="@themetags" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Taximania - Car Rental HTML Template" />
+    <meta name="twitter:description"
+        content="Car Rental HTML Template, auto parts technology, car dealership & business Bootstrap 5 Html template. It is best and famous car rental company website template." />
+    <meta name="twitter:image" content="#" />
+
+    <!--facebook og-->
+    <meta property="og:url" content="#" />
+    <meta name="twitter:title" content="Taximania - Car Rental HTML Template" />
+    <meta property="og:description"
+        content="Car Rental HTML Template, auto parts technology, car dealership & business Bootstrap 5 Html template. It is best and famous car rental company website template." />
+    <meta property="og:image" content="#" />
+    <meta property="og:image:secure_url" content="#" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="600" />
+
+    <!--meta-->
+    <meta name="description"
+        content="Car Rental HTML Template, auto parts technology, car dealership & business Bootstrap 5 Html template. It is best and famous car rental company website template." />
+    <meta name="author" content="ThemeTags" />
+
+    <!--favicon icon-->
+    <link rel="icon" href="../assets/img/favicon.png" type="image/png" sizes="16x16" />
+
+    <!--title-->
+    <title>Taximania - Rent Home - HTML Template</title>
+
+        <!--toastify -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.11.0/toastify.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.11.0/toastify.min.js"></script>
+
+    <!--build:css-->
+    <link rel="stylesheet" href="../assets/css/main.css" />
+    <!-- endbuild -->
+    <!--axios cdn-->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!--custom css-->
+    <link rel="stylesheet" href="../assets/css/custom.css" />
+
+</head>
+
+<body>
+
+    <div class="ring-preloader w-100 h-100 position-fixed start-0 top-0">
+        <div class="lds-dual-ring"></div>
+    </div>
+
+    <!--main content wrapper start-->
+    <div class="main-wrapper">
+
+        <!--header area start-->
+        <header class="rent-header position-relative z-2 header-sticky">
+            <div class="at_header_nav position-relative z-1">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-6 col-lg-3">
+                            <div class="logo-wrapper">
+                                <a href="index.html"><img src="../assets/img/logo-black.png" alt="logo"></a>
+                            </div>
+                        </div>
+                        <div class="col-6 col-lg-9">
+                            <div class="at_header_right d-flex align-items-center justify-content-end">
+                                <nav class="at_nav_menu d-none d-lg-block">
+                                    <ul>
+                                        <li><a href="dashboard.html">Home</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                                <a href="car-listing.html" class="listing-btn ms-4 d-none d-md-block"><span
+                                        class="icon-wrapper d-inline-flex align-items-center justify-content-center rounded-circle me-2"><i
+                                            class="fa-solid fa-plus"></i></span>Add Listing</a>
+                                <div class="apt_header_search dropdown ms-4">
+                                    <button class="apt_search_toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-end p-0 border border-1 rounded overflow-hidden"
+                                        style="">
+                                        <form class="d-flex align-items-center">
+                                            <input type="text" placeholder="Search...">
+                                            <button type="submit"
+                                                class="bg-transparent text-secondary fw-bold border-start px-3">Go</button>
+                                        </form>
+                                    </div>
+                                </div>
+                                    
+                                <button class="ofcanvus-toggle header-toggle-btn ms-4 d-none d-lg-block">
+                                    <i class="fa-solid fa-user"></i>
+                                </button>
+                                <button class="mobile-menu-toggle header-toggle-btn ms-4 d-lg-none">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!--header area end-->
+
+        <!--mobile menu start-->
+        <div class="mobile-menu position-fixed bg-white deep-shadow">
+            <button class="close-menu position-absolute"><i class="fa-solid fa-xmark"></i></button>
+            <a href="index.html" class="logo-wrapper bg-secondary d-block mt-4 p-3 rounded-1 text-center"><img
+                    src="../assets/img/logo.png" alt="logo" class="img-fluid"></a>
+            <div class="user-img mt-4 justify-content-center d-flex" href="profile.html">
+                <i class="fa-solid fa-user"></i>
+            </div>
+            <p class="mb-0 mt-2 text-center" id="username"></p>
+            <nav class="mobile-menu-wrapper mt-4">
+                <ul>
+                    <li><a href="dashboard.html"> <i class="fa-solid fa-home"></i> &nbsp; Home</a> </li>
+                    
+                    <li><a href="car-listing.html" ><i class="fa-solid fa-circle-plus"></i>&nbsp; Add Listing</a></li>
+                    
+                    <li><a href="profile.html#info"><i class="fa-solid fa-user"></i>&nbsp; Profile </a></li>
+                    
+                    <li><a href="profile.html#vin"><i class="fa-solid fa-car"></i>&nbsp; My Vehicles </a></li>
+                    
+                    <li><a href="profile.html#payment"><i class="fa-solid fa-credit-card"></i>&nbsp; My Payments </a></li>
+                    
+                    <li><a href="profile.html#message"><i class="fa-solid fa-envelope"></i>&nbsp; My Messages </a></li>
+                </ul>
+            </nav>
+            <a  id="logout" class="btn btn-primary btn-sm mt-4">Logout</a>
+        </div>
+        <!--mobile menu end-->
+
+        <!--ofcanvus menu start-->
+        <div class="at_offcanvus_menu position-fixed">
+            <button class="at-offcanvus-close"><i class="fa-solid fa-xmark"></i></button>
+            <a href="#" class="logo-wrapper d-inline-block mb-5  mt-5"><img src="../assets/img/logo-black.png" alt="logo"></a>
+            <!-- show user data field and logout button -->
+            <div class="user-data-field">
+                <div class="user-data">
+                    <div class="user-img" href="profile.html">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                        <p class="mb-0" id="username"></p>
+                    <!-- center user info -->
+                    <div class="user-info">
+                        <!-- <a class="text-primary" id="email"></a> -->
+                        <a href="profile.html#info"><i class="fa-solid fa-user"></i><h5>  Profile</h5> </a>
+                        <a href="profile.html#vin"><i class="fa-solid fa-car"></i><h5> My Vehicles</h5></a>
+                        <a href="profile.html#payment"><i class="fa-solid fa-credit-card"></i><h5> My Payments</h5></a>
+                        <a href="profile.html#message"><i class="fa-solid fa-envelope"></i><h5>  My Messages</h5></a>
+                    </div>
+                </div>
+                <br>
+                <a  id="logout" class="btn btn-primary btn-sm">Logout</a>
+            </div>
+        </div>
+        <!--ofcanvus menu end-->
+
+        <!--car booking section-->
+        <section class="car-booking ptb-60">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6">
+                        <div class="title-style-2 text-center">
+                            <span class="subtitle lead text-secondary">Regular <mark
+                                    class="bg-transparent p-0 text-primary">Car</mark></span>
+                            <h2 class="h1 mt-20 mb-20">Book Your Suitable Car</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="car-search-filter d-flex align-items-center mt-30">
+                    <div class="input-field has-icon">
+                        <label class="text-secondary fw-bold">Search Name</label>
+                        <input type="text" placeholder="Search Name" class="d-block w-100 border rounded has-icon">
+                    </div>
+                    <div class="input-field">
+                        <label class="text-secondary fw-bold">Brand Name</label>
+                        <select class="form-select">
+                            <option>Brand Name</option>
+                            <option>Mercedes Benz</option>
+                            <option>BMV 4 Series</option>
+                            <option>Hyundai</option>
+                        </select>
+                    </div>
+                    <div class="input-field">
+                        <label class="text-secondary fw-bold">Car Model</label>
+                        <select class="form-select">
+                            <option>Sedan</option>
+                            <option>Wagon</option>
+                            <option>Coup</option>
+                            <option>Compact</option>
+                            <option>Crossover</option>
+                            <option>Suv</option>
+                        </select>
+                    </div>
+                    <div class="input-field">
+                        <label class="text-secondary fw-bold">Ratting</label>
+                        <select class="form-select">
+                            <option>5 Star</option>
+                            <option>4 Star</option>
+                            <option>3 Star</option>
+                            <option>2 Star</option>
+                            <option>1 Star</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mt-30 g-4" id="car-list">
+
+                </div>
+            </div>
+        </section>
+        <!--car booking section-->
+
+        <!--offer section start-->
+        <section
+            class="offer-section position-relative z-1 overflow-hidden pt-120 position-relative z-1 overflow-hidden"
+            data-background="../assets/img/shapes/texture-bg.png">
+            <img src="../assets/img/shapes/offer-double-circle.png" alt="shape"
+                class="position-absolute offer-double-circle z--1">
+            <img src="../assets/img/shapes/offer-road.png" alt="road" class="position-absolute start-0 top-0 z--1">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 order-2 order-lg-1">
+                        <div class="offer-left">
+                            <div class="title-style-2">
+                                <span class="subtitle d-block text-white lead mb-20">Become a <mark
+                                        class="text-primary bg-transparent p-0">HOST</mark></span>
+                                <h2 class="h1 text-white mb-20">List your Vehicle for Rent</h2>
+                                <p class="mb-40">Authoritatively synthesize integrated value through flexible metrics.
+                                    Seamlessly evolve scenarios without customer directed channels. </p>
+                                <a href="car-l.html" class="btn btn-primary">Become a Host<span class="ms-2"><i
+                                            class="fa-solid fa-arrow-right"></i></span></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 align-self-end order-1 order-lg-2">
+                        <div class="offer-right position-relative z-1">
+                            <span class="small-circle-shape position-absolute z--1"></span>
+                            <img src="../assets/img/home2/offer-car.png" alt="not found" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--offer section end-->
+
+        <!--car slider start-->
+        <section class="car-slider ptb-120 overflow-hidden">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6">
+                        <div class="title-style-2 text-center">
+                            <span class="subtitle text-secondary lead">Special <mark
+                                    class="bg-transparent text-primary p-0">Car</mark></span>
+                            <h2 class="h1 mt-3 mb-0">Choose Your Perfect Car</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="car-double-slider position-relative mt-5 position-relative">
+                    <img src="../assets/img/shapes/plus-rectangle.png" alt="plus" class="position-absolute plus-rectangle">
+                    <div class="car-thumb-slider-wrapper">
+                        <div class="swiper car-thumb-slider">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide car-thumb-single">
+                                    <img src="../assets/img/home2/car-thumb-1.png" alt="car" class="img-fluid">
+                                </div>
+                                <div class="swiper-slide car-thumb-single">
+                                    <img src="../assets/img/home2/car-thumb-2.png" alt="car" class="img-fluid">
+                                </div>
+                                <div class="swiper-slide car-thumb-single">
+                                    <img src="../assets/img/home2/car-thumb-3.png" alt="car" class="img-fluid">
+                                </div>
+                                <div class="swiper-slide car-thumb-single">
+                                    <img src="../assets/img/home2/car-thumb-3.png" alt="car" class="img-fluid">
+                                </div>
+                            </div>
+                            <div class="slider-button-next slider-btn"><i class="fa-solid fa-arrow-right"></i></div>
+                            <div class="slider-button-prev slider-btn"><i class="fa-solid fa-arrow-left"></i></div>
+                        </div>
+                    </div>
+                    <div class="car-slider swiper">
+                        <div class="swiper-wrapper">
+                            <div class="car-slider-single position-relative overflow-hidden swiper-slide">
+                                <div class="car-slider-item-left bg-white p-4">
+                                    <img src="../assets/img/home2/car-slide-1.jpg" alt="not found" class="img-fluid">
+                                </div>
+                                <div class="car-slider-item-right bg-white rounded">
+                                    <a href="car-rental.html">
+                                        <h4>Maercedes Benz i7</h4>
+                                    </a>
+                                    <div class="pricing-info d-flex align-items-center mt-4">
+                                        <div class="info-left">
+                                            <span class="text-secondary fw-semibold"><span
+                                                    class="h4 text-primary mb-0 d-inline-block">$380</span> /Day</span>
+                                        </div>
+                                        <div class="info-right ms-4">
+                                            <span class="text-secondary fw-semibold"><span
+                                                    class="h4 mb-0 d-inline-block">$385</span> /Day</span>
+                                        </div>
+                                    </div>
+                                    <p class="mt-4 mb-3">Credibly customize value-added for end-to-end delivery
+                                        Enthusiastically synergize process-centric partnerships through paradigms. </p>
+                                    <ul class="car-info mt-3 mb-30 fw-semibold fs-md">
+                                        <li><span class="me-2"><i class="flaticon-drive"></i></span>Passengers: 06</li>
+                                        <li><span class="me-2"><i class="flaticon-suitcase"></i></span>Suitcase: 1
+                                            Large, 2 Small</li>
+                                        <li><span class="me-2"><i class="flaticon-car-door"></i></span>Doors: 02</li>
+                                    </ul>
+                                    <a href="car-rental.html" class="btn btn-primary btn-sm">Order Now</a>
+                                </div>
+                            </div>
+                            <div class="car-slider-single position-relative overflow-hidden swiper-slide">
+                                <div class="car-slider-item-left bg-white p-4">
+                                    <img src="../assets/img/home2/car-slide-1.jpg" alt="not found" class="img-fluid">
+                                </div>
+                                <div class="car-slider-item-right bg-white rounded">
+                                    <a href="car-rental.html">
+                                        <h4>Maercedes Benz i7</h4>
+                                    </a>
+                                    <div class="pricing-info d-flex align-items-center mt-4">
+                                        <div class="info-left">
+                                            <span class="text-secondary fw-semibold"><span
+                                                    class="h4 text-primary mb-0 d-inline-block">$380</span> /Day</span>
+                                        </div>
+                                        <div class="info-right ms-4">
+                                            <span class="text-secondary fw-semibold"><span
+                                                    class="h4 mb-0 d-inline-block">$38500</span> /Month</span>
+                                        </div>
+                                    </div>
+                                    <p class="mt-4 mb-3">Credibly customize value-added for end-to-end delivery
+                                        Enthusiastically synergize process-centric partnerships through paradigms. </p>
+                                    <ul class="car-info mt-3 mb-30 fw-semibold fs-md">
+                                        <li><span class="me-2"><i class="flaticon-drive"></i></span>Passengers: 06</li>
+                                        <li><span class="me-2"><i class="flaticon-suitcase"></i></span>Suitcase: 1
+                                            Large, 2 Small</li>
+                                        <li><span class="me-2"><i class="flaticon-car-door"></i></span>Doors: 02</li>
+                                    </ul>
+                                    <a href="car-rental.html" class="btn btn-primary btn-sm">Order Now</a>
+                                </div>
+                            </div>
+                            <div class="car-slider-single position-relative overflow-hidden swiper-slide">
+                                <div class="car-slider-item-left bg-white p-4">
+                                    <img src="../assets/img/home2/car-slide-1.jpg" alt="not found" class="img-fluid">
+                                </div>
+                                <div class="car-slider-item-right bg-white rounded">
+                                    <span class="btn-meta bg-primary-light text-secondary"><span
+                                            class="me-1 text-primary"><i class="fas fa-heart"></i></span>1.5k
+                                        likes</span>
+                                    <a href="car-rental.html">
+                                        <h4>Maercedes Benz i7</h4>
+                                    </a>
+                                    <div class="pricing-info d-flex align-items-center mt-4">
+                                        <div class="info-left">
+                                            <span class="text-secondary fw-semibold"><span
+                                                    class="h4 text-primary mb-0 d-inline-block">$380</span> /Day</span>
+                                        </div>
+                                        <div class="info-right ms-4">
+                                            <span class="text-secondary fw-semibold"><span
+                                                    class="h4 mb-0 d-inline-block">$38500</span> /Month</span>
+                                        </div>
+                                    </div>
+                                    <p class="mt-4 mb-3">Credibly customize value-added for end-to-end delivery
+                                        Enthusiastically synergize process-centric partnerships through paradigms. </p>
+                                    <ul class="car-info mt-3 mb-30 fw-semibold fs-md">
+                                        <li><span class="me-2"><i class="flaticon-drive"></i></span>Passengers: 06</li>
+                                        <li><span class="me-2"><i class="flaticon-suitcase"></i></span>Suitcase: 1
+                                            Large, 2 Small</li>
+                                        <li><span class="me-2"><i class="flaticon-car-door"></i></span>Doors: 02</li>
+                                    </ul>
+                                    <a href="car-rental.html" class="btn btn-primary btn-sm">Order Now</a>
+                                </div>
+                            </div>
+                            <div class="car-slider-single position-relative overflow-hidden swiper-slide">
+                                <div class="car-slider-item-left bg-white p-4">
+                                    <img src="../assets/img/home2/car-slide-1.jpg" alt="not found" class="img-fluid">
+                                </div>
+                                <div class="car-slider-item-right bg-white rounded">
+                                    <span class="btn-meta bg-primary-light text-secondary"><span
+                                            class="me-1 text-primary"><i class="fas fa-heart"></i></span>1.5k
+                                        likes</span>
+                                    <a href="car-rental.html">
+                                        <h4>Maercedes Benz i7</h4>
+                                    </a>
+                                    <div class="pricing-info d-flex align-items-center mt-4">
+                                        <div class="info-left">
+                                            <span class="text-secondary fw-semibold"><span
+                                                    class="h4 text-primary mb-0 d-inline-block">$380</span> /Day</span>
+                                        </div>
+                                        <div class="info-right ms-4">
+                                            <span class="text-secondary fw-semibold"><span
+                                                    class="h4 mb-0 d-inline-block">$38500</span> /Month</span>
+                                        </div>
+                                    </div>
+                                    <p class="mt-4 mb-3">Credibly customize value-added for end-to-end delivery
+                                        Enthusiastically synergize process-centric partnerships through paradigms. </p>
+                                    <ul class="car-info mt-3 mb-30">
+                                        <li class="fw-semibold"><span class="me-2"><i
+                                                    class="flaticon-drive"></i></span>Passengers: 06</li>
+                                        <li class="fw-semibold"><span class="me-2"><i
+                                                    class="flaticon-suitcase"></i></span>Suitcase: 1 Large, 2 Small</li>
+                                        <li class="fw-semibold"><span class="me-2"><i
+                                                    class="flaticon-car-door"></i></span>Doors: 02</li>
+                                    </ul>
+                                    <a href="car-rental.html" class="btn btn-primary btn-sm">Order Now</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--car slider end-->
+
+
+
+        <!--contact section start-->
+        <div class="h2-contact-section position-relative">
+            <div class="container">
+                <div class="h2-contact-wrapper bg-secondary rounded overflow-hidden">
+                    <div class="row justify-content-between">
+                        <div class="col-lg-5">
+                            <div class="h2-contact-left position-relative z-1 bg-primary text-center text-sm-start">
+                                <h3 class="mb-0 text-white">Trusted Source in Car Rent <mark
+                                        class="bg-transparent p-0 text-white position-relative">Services</mark></h3>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 align-self-center">
+                            <div class="h2-contact-right d-sm-flex align-items-center text-center text-sm-start">
+                                <span
+                                    class="icon-wrapper bg-white d-inline-flex align-items-center justify-content-center flex-shrink-0 rounded-circle text-primary"><i
+                                        class="flaticon-chat-1"></i></span>
+                                <div class="h2-contact-right-content ms-sm-3 mt-4 mt-sm-0">
+                                    <h6 class="mb-0 text-white">Need help? Talk to an <mark
+                                            class="text-primary position-relative bg-transparent p-0">Expert</mark></h6>
+                                    <h3 class="mt-3 mb-0 text-white">Free +98 (000)-9850</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--contact section end-->
+
+        <!--feedback section start-->
+        <!-- <section class="h2-feedback-section pb-80 bg-white" data-background="../assets/img/shapes/bg-net-overlay.png">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-xl-6 col-lg-7">
+                        <div class="title-style-2 text-center">
+                            <span class="subtitle text-primary lead">Customer <mark
+                                    class="bg-transparent p-0 text-primary">Feedback</mark></span>
+                            <h2 class="h1 mt-3 mb-3">Our Happy Customer Saying</h2>
+                            <p class="mb-0 pera-text-2">Credibly customize value-added paradigms for end-to-end delivera
+                                Enthusiastically synergize process-centric partnerships through paradigms. </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper h2-feedback-slider mt-5">
+                    <div class="swiper-wrapper">
+                        <div class="h2-feedback-single swiper-slide">
+                            <img src="../assets/img/home2/feedback-1.jpg" alt="not found" class="img-fluid rounded">
+                            <div class="h2-feedback-content bg-white rounded position-relative">
+                                <div class="feedback-top d-flex align-items-center justify-content-between">
+                                    <img src="../assets/img/author/client-1.jpg" alt="client"
+                                        class="rounded-circle border border-2 border-white">
+                                    <span class="star-rating rounded-pill"><span class="me-2"><i
+                                                class="fa-solid fa-star"></i></span>4.5</span>
+                                </div>
+                                <p class="mt-3 mb-4">Assertive disseminate integrated human capital through dynamic
+                                    bandwidth. independent partnerships. Energy statically extend B2C potentialities
+                                    without backend synergy.</p>
+                                <div class="client-info">
+                                    <h6 class="mb-0">Adam Smith</h6>
+                                    <span>Founder</span>
+                                </div>
+                                <img src="../assets/img/icons/quote.svg" alt="quote" class="position-absolute quote-icon">
+                            </div>
+                        </div>
+                        <div class="h2-feedback-single swiper-slide">
+                            <img src="../assets/img/home2/feedback-2.jpg" alt="not found" class="img-fluid rounded">
+                            <div class="h2-feedback-content bg-white rounded position-relative pt-5">
+                                <span class="star-rating rounded-pill position-absolute"><span class="me-2"><i
+                                            class="fa-solid fa-star"></i></span>4.5</span>
+                                <p class="mb-4">Assertive disseminate integrated human capital through dynamic
+                                    bandwidth. independent partnerships. Energy statically extend B2C potentialities
+                                    without backend synergy.</p>
+                                <div class="clients-info-content d-flex align-items-center">
+                                    <img src="../assets/img/author/client-2.jpg" class="rounded-circle flex-shrink-0"
+                                        alt="not found">
+                                    <div class="client-info ms-3">
+                                        <h6 class="mb-0">Adam Smith</h6>
+                                        <span>Founder</span>
+                                    </div>
+                                </div>
+                                <img src="../assets/img/icons/quote.svg" alt="quote" class="position-absolute quote-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+        </section> -->
+        <!--feedback section end-->
+
+
+    </div>
+    <!-- main content wrapper ends -->
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="at_product_view">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content product_modal shadow">
+                <div class="close-btn-wrapper text-end">
+                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="at_product_view">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <div class="product_view_slider">
+                                <div class="product_feature_img_slider swiper">
+                                    <div class="swiper-wrapper">
+                                        <div class="swiper-slide">
+                                            <img src="../assets/img/home4/pd-1.jpg" alt="feature img" class="img-fluid">
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <img src="../assets/img/home4/pd-1.jpg" alt="feature img" class="img-fluid">
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <img src="../assets/img/home4/pd-1.jpg" alt="feature img" class="img-fluid">
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <img src="../assets/img/home4/pd-1.jpg" alt="feature img" class="img-fluid">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="product_thumb_slider swiper mt-3">
+                                    <div class="swiper-wrapper">
+                                        <div class="swiper-slide">
+                                            <img src="../assets/img/home4/pd-thumb-1.png" alt="thumbnail"
+                                                class="img-fluid">
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <img src="../assets/img/home4/pd-thumb-1.png" alt="thumbnail"
+                                                class="img-fluid">
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <img src="../assets/img/home4/pd-thumb-1.png" alt="thumbnail"
+                                                class="img-fluid">
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <img src="../assets/img/home4/pd-thumb-1.png" alt="thumbnail"
+                                                class="img-fluid">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="product_view_right mt-4 mt-md-0">
+                                <ul class="product_review d-flex align-items-center">
+                                    <li><i class="fa-solid fa-star"></i></li>
+                                    <li><i class="fa-solid fa-star"></i></li>
+                                    <li><i class="fa-solid fa-star"></i></li>
+                                    <li><i class="fa-solid fa-star"></i></li>
+                                    <li><i class="fa-solid fa-star"></i></li>
+                                    <li class="review-total ms-2 text-primary fw-semibold"><a href="#">( 95 Reviews
+                                            )</a></li>
+                                </ul>
+                                <h5 class="product_title mt-3">Aluminium Wheel AR-19 <br> Tire Parts</h5>
+                                <p>Monotonectally simplify frictionless communities via clicks-and-mortar Interactively
+                                    disseminate relationships. </p>
+                                <ul class="key_features">
+                                    <li>Speed: 750 RPM</li>
+                                    <li>Power Source: Cordless-Electric</li>
+                                    <li>Battery Cell Type: Lithium</li>
+                                    <li>Voltage: 20 Volts</li>
+                                    <li>Battery Capacity: 2 Ah</li>
+                                </ul>
+                                <div class="product_color_select mt-3">
+                                    <span class="title text-secondary fw-semibold">Color</span>
+                                    <ul class="d-flex align-items-center">
+                                        <li>
+                                            <input type="radio" name="color">
+                                            <span class="color_circle bg-white border border-1"></span>
+                                        </li>
+                                        <li>
+                                            <input type="radio" name="color">
+                                            <span class="color_circle black-color bg-secondary"></span>
+                                        </li>
+                                        <li>
+                                            <input type="radio" name="color">
+                                            <span class="color_circle red-color bg-primary"></span>
+                                        </li>
+                                        <li>
+                                            <input type="radio" name="color">
+                                            <span class="color_circle bg-warning"></span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="product_price mt-4">
+                                    <del class="fw-semibold">$59.00</del>
+                                    <span class="text-primary fw-semibold ms-2">$29.00</span>
+                                </div>
+                                <div class="add_to_cart_product d-flex align-items-center mb-4 mt-3">
+                                    <form class="d-inline-flex align-items-center">
+                                        <button type="button" class="decrement btn-sm">-</button>
+                                        <input type="text" value="01">
+                                        <button type="button" class="increment btn-sm">+</button>
+                                    </form>
+                                    <a href="#" class="btn btn-secondary btn-sm"><span class="me-1"><i
+                                                class="fa-solid fa-cart-plus"></i></span>Add To Cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--scrolltop button-->
+    <button class="theme-scrolltop-btn"><i class="fa-regular fa-hand-pointer"></i></button>
+    <!--scrolltop button end-->
+
+    <!--build:js-->
+    <script src="../assets/js/vendors/jquery.min.js"></script>
+    <script src="../assets/js/vendors/jquery-ui.min.js"></script>
+    <script src="../assets/js/vendors/appear.js"></script>
+    <script src="../assets/js/vendors/popper.min.js"></script>
+    <script src="../assets/js/vendors/bootstrap.min.js"></script>
+    <script src="../assets/js/vendors/easing.min.js"></script>
+    <script src="../assets/js/vendors/swiper.min.js"></script>
+    <script src="../assets/js/vendors/massonry.min.js"></script>
+    <script src="../assets/js/vendors/bootstrap-slider.js"></script>
+    <script src="../assets/js/vendors/magnific-popup.js"></script>
+    <script src="../assets/js/vendors/waypoints.js"></script>
+    <script src="../assets/js/vendors/counterup.js"></script>
+    <script src="../assets/js/vendors/isotop.pkgd.min.js"></script>
+    <script src="../assets/js/vendors/moment.min.js"></script>
+    <script src="../assets/js/vendors/date-picker.min.js"></script>
+    <script src="../assets/js/vendors/progressbar.js"></script>
+    <script src="../assets/js/vendors/slick.js"></script>
+    <script src="../assets/js/vendors/countdown.min.js"></script>
+    <script src="../assets/js/vendors/custom-scrollbar.js"></script>
+    <script src="../assets/js/vendors/price-range.js"></script>
+    <script src="../assets/js/app.js"></script>
+    <script src='../assets/js/api.js'></script>
+    <!--endbuild-->
+</body>
+
+</html>

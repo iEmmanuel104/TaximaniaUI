@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!--required meta tags-->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--twitter og-->
+    <meta name="twitter:site" content="@themetags" />
+    <meta name="twitter:creator" content="@themetags" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="AutoHive - Car Rental HTML Template" />
+    <meta name="twitter:description"
+        content="Car Rental HTML Template, auto parts technology, car dealership & business Bootstrap 5 Html template. It is best and famous car rental company website template." />
+    <meta name="twitter:image" content="#" />
+
+    <!--facebook og-->
+    <meta property="og:url" content="#" />
+    <meta name="twitter:title" content="AutoHive - Car Rental HTML Template" />
+    <meta property="og:description"
+        content="Car Rental HTML Template, auto parts technology, car dealership & business Bootstrap 5 Html template. It is best and famous car rental company website template." />
+    <meta property="og:image" content="#" />
+    <meta property="og:image:secure_url" content="#" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="600" />
+
+    <!--meta-->
+    <meta name="description"
+        content="Car Rental HTML Template, auto parts technology, car dealership & business Bootstrap 5 Html template. It is best and famous car rental company website template." />
+    <meta name="author" content="ThemeTags" />
+
+    <!--favicon icon-->
+    <link rel="icon" href="../assets/img/favicon.png" type="image/png" sizes="16x16" />
+
+    <!--title-->
+    <title>AutoHive - Car Rental - HTML Template</title>
+
+    <!--build:css-->
+    <link rel="stylesheet" href="../assets/css/main.css" />
+    <!-- endbuild -->
+
+    <!--toastify -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.11.0/toastify.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.11.0/toastify.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
+
+    <!-- google maps -->
+    <!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script> -->
+    <!-- <script type="text/javascript" -->
+        <!-- src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJfzOqR9u2eyXv6OaiuExD3jzoBGGIVKY&libraries=geometry,places&v=weekly"></script> -->
+
+    <!--axios cdn-->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!--custom css-->
+    <link rel="stylesheet" href="../assets/css/custom.css" />
+
+</head>
+
+<body>
+
+    <div class="ring-preloader w-100 h-100 position-fixed start-0 top-0">
+        <div class="lds-dual-ring"></div>
+    </div>
+
+    <!--main content wrapper start-->
+    <div class="main-wrapper">
+
+        <!--header area start-->
+        <header class="rent-header position-relative z-2 header-sticky">
+            <div class="at_header_nav position-relative z-1">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-6 col-lg-3">
+                            <div class="logo-wrapper">
+                                <a href="index.html"><img src="../assets/img/logo-black.png" alt="logo"></a>
+                            </div>
+                        </div>
+                        <div class="col-6 col-lg-9">
+                            <div class="at_header_right d-flex align-items-center justify-content-end">
+                                <nav class="at_nav_menu d-none d-lg-block">
+                                    <ul>
+                                        <li><a href="dashboard.html">Home</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                                <a href="car-listing.html" class="listing-btn ms-4 d-none d-md-block"><span
+                                        class="icon-wrapper d-inline-flex align-items-center justify-content-center rounded-circle me-2"><i
+                                            class="fa-solid fa-plus"></i></span>Add Listing</a>
+                                <div class="apt_header_search dropdown ms-4">
+                                    <button class="apt_search_toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-end p-0 border border-1 rounded overflow-hidden"
+                                        >
+                                        <form class="d-flex align-items-center">
+                                            <input type="text" placeholder="Search...">
+                                            <button type="submit"
+                                                class="bg-transparent text-secondary fw-bold border-start px-3">Go</button>
+                                        </form>
+                                    </div>
+                                </div>
+        
+                                <button class="ofcanvus-toggle header-toggle-btn ms-4 d-none d-lg-block">
+                                    <i class="fa-solid fa-user"></i>
+                                </button>
+                                <button class="mobile-menu-toggle header-toggle-btn ms-4 d-lg-none">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!--header area end-->
+        
+        <!--mobile menu start-->
+        <div class="mobile-menu position-fixed bg-white deep-shadow">
+            <button class="close-menu position-absolute"><i class="fa-solid fa-xmark"></i></button>
+            <a href="index.html" class="logo-wrapper bg-secondary d-block mt-4 p-3 rounded-1 text-center"><img
+                    src="../assets/img/logo.png" alt="logo" class="img-fluid"></a>
+            <div class="user-img mt-4 justify-content-center d-flex" href="profile.html">
+                <i class="fa-solid fa-user"></i>
+            </div>
+            <p class="mb-0 mt-2 text-center" id="username"></p>
+            <nav class="mobile-menu-wrapper mt-4">
+                <ul>
+                    <li><a href="dashboard.html"> <i class="fa-solid fa-home"></i> &nbsp; Home</a> </li>
+        
+                    <li><a href="car-listing.html"><i class="fa-solid fa-circle-plus"></i>&nbsp; Add Listing</a></li>
+        
+                    <li><a href="profile.html#info"><i class="fa-solid fa-user"></i>&nbsp; Profile </a></li>
+        
+                    <li><a href="profile.html#vin"><i class="fa-solid fa-car"></i>&nbsp; My Vehicles </a></li>
+        
+                    <li><a href="profile.html#payment"><i class="fa-solid fa-credit-card"></i>&nbsp; My Payments </a></li>
+        
+                    <li><a href="profile.html#message"><i class="fa-solid fa-envelope"></i>&nbsp; My Messages </a></li>
+                </ul>
+            </nav>
+            <a id="logout" class="btn btn-primary btn-sm mt-4">Logout</a>
+        </div>
+        <!--mobile menu end-->
+        
+        <!--ofcanvus menu start-->
+        <div class="at_offcanvus_menu position-fixed">
+            <button class="at-offcanvus-close"><i class="fa-solid fa-xmark"></i></button>
+            <a href="#" class="logo-wrapper d-inline-block mb-5  mt-5"><img src="../assets/img/logo-black.png" alt="logo"></a>
+            <!-- show user data field and logout button -->
+            <div class="user-data-field">
+                <div class="user-data">
+                    <div class="user-img" href="profile.html">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+        
+                    <!-- center user info -->
+                    <div class="user-info">
+                        <p class="mb-0">
+                        <p class="mb-0" id="username"></p>
+                        <!-- <a class="text-primary" id="email"></a> -->
+                        <a href="profile.html#info"><i class="fa-solid fa-user"></i>
+                            <h5> Profile</h5>
+                        </a>
+                        <a href="profile.html#vin"><i class="fa-solid fa-car"></i>
+                            <h5> My Vehicles</h5>
+                        </a>
+                        <a href="profile.html#payment"><i class="fa-solid fa-credit-card"></i>
+                            <h5> My Payments</h5>
+                        </a>
+                        <a href="profile.html#message"><i class="fa-solid fa-envelope"></i>
+                            <h5> My Messages</h5>
+                        </a>
+                        </p>
+                    </div>
+                </div>
+                <a id="logout" class="btn btn-primary btn-sm">Logout</a>
+            </div>
+        </div>
+        <!--ofcanvus menu end-->
+
+
+        <!-- side menu profile start -->
+        <section>
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-3 d-flex d-xl-block z-1">
+                        <div class="side_menu_nav">
+                        <button class="close_btn" id="close_btn">
+                            <i class="fas fa-times"></i>
+                        </button>                            
+                            <ul>
+                                <li><a href="#info"><i class="fas fa-user"></i> User information</a></li>
+                                <li><a href="#vin"><i class="fas fa-car"></i> Hosted Vehicles</a></li>
+                                <li><a href="#booking"><i class="fas fa-book"></i> Booking History</a></li>
+                                <li><a href="#payment"><i class="fas fa-credit-card"></i> Payment Details</a></li>
+                                <li><a href="#message"><i class="fas fa-envelope"></i> Messages</a></li>
+                                <li><a href="#password"><i class="fas fa-key"></i> Change Password</a></li>
+                            </ul>
+                        </div>
+                        <div class="side_menu_toggle">
+                            <button class="toggle_btn" id="toggle_btn">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>                    
+                    </div>
+
+                    <div class="menu-contents col-xl-9">
+                        <div class="car_listing_form pt-120">
+                            <div class="listing_info_box bg-white rounded" id="info">
+                                <form id="profile-update-form" enctype="multipart/form-data">
+                                    <h5 class="mb-4">User information</h5>
+                                    <div class="row g-4">
+                                        <div class="col-sm-12">
+                                            <div class="input-field">
+                                                <label>Name*</label>
+                                                <input type="name" id="name" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="input-field">
+                                                <label>Username*</label>
+                                                <input type="username" id="username" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="input-field">
+                                                <label>Email*</label>
+                                                <input type="email" id="email" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="input-field">
+                                                <label>Phone*</label>
+                                                <input type="phone" id="Phone" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <div class="input-field">
+                                                <label>address*</label>
+                                                <input type="address" id="address" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <br>
+                                    <button type="submit" class="profile-btn">Update Details<span class="ms-2 "><i class="fa-solid fa-arrow-right"></i></span></button>
+                                </form>
+                            </div>
+                            <div class="listing_info_box bg-white rounded" id="vin">
+                                <h4 class="mb-2">Hosted Vehicles</h4>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-center w-5">No</th>
+                                                        <th class="w-45">Vehicle Name</th>
+                                                        <th class="w-40">Plate Number</th>
+                                                        <th class="w-25">Status</th>
+                                                        <th class="text-center w-5"></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="hosted-vehicles">
+                                                    <!-- <tr class="flex-nowrap">
+                                                        <td class="text-center align-middle">1.</td>
+                                                        <td class="align-middle">Vehicle name</td>
+                                                        <td class="align-middle">Plate number</td>
+                                                        <td class="align-middle">
+                                                            <i class="fas fa-stop-circle text-danger"></i> Unavailable
+                                                        </td>
+                                                        <td class="text-center align-middle">
+                                                            <a href="#"><i class="fas fa-edit text-success">&nbsp;</i>&nbsp;</a>
+                                                            <a href="#"><i class="fas fa-trash-alt text-danger"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="flex-nowrap">
+                                                        <td class="text-center align-middle">2.</td>
+                                                        <td class="align-middle">Vehicle name</td>
+                                                        <td class="align-middle">Plate number</td>
+                                                        <td class="align-middle">
+                                                            <i class="fas fa-check-circle text-success"></i> Available
+                                                        </td>
+                                                        <td class="text-center align-middle">
+                                                            <a href="#"><i class="fas fa-edit text-success">&nbsp;</i>&nbsp;</a>
+                                                            <a href="#"><i class="fas fa-trash-alt text-danger"></i></a>
+                                                        </td>
+                                                    </tr> -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <br>
+                                        <a class="profile-btn" href="car-listing.html">Add Vehicle <i class="fa-solid fa-plus"></i></a>
+                                        <h4 class="mt-5">Unverified Vehicles</h4>
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-center">#</th>
+                                                        <th>Vehicle Name</th>
+                                                        <th>Plate Number</th>
+                                                        <th>Status</th>
+                                                        <th class="text-center"></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="unverified-vehicles">
+                                                    <!-- <tr>
+                                                        <td class="text-center">1.</td>
+                                                        <td>Vehicle name</td>
+                                                        <td>Plate number</td>
+                                                        <td><i class="fas fa-stop-circle text-danger"></i> Pending verification</td>
+                                                        <td class="text-center">
+                                                            <a href="#"><i class="fas fa-trash-alt text-danger"></i></a>
+                                                        </td>
+                                                    </tr> -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="listing_info_box bg-white rounded" id="payment">
+                                <h4 class="mb-2">Payment Details</h4>
+                                <form>
+                                    <div class="row g-4">
+                                        <div class="col-sm-12">
+                                            <h6>Account Details</h6>
+                                            <div class="input-field">
+                                                <label>Account Number*</label>
+                                                <input type="text" id="account-number" required>
+                                            </div>
+                                            <div class="input-field">
+                                                <label>Bank Name*</label>
+                                                <input type="text" id="bank-name" required>
+                                            </div>
+                                            <div class="input-field">
+                                                <label>Account Name*</label>
+                                                <input type="text" id="account-name" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <h6>Card Details</h6>
+                                            <div class="input-field">
+                                                <label>Card Number*</label>
+                                                <input type="text" id="card-number" required>
+                                            </div>
+                                            <div class="input-field">
+                                                <label>Expiry Date*</label>
+                                                <input type="text" id="expiry-date" placeholder="MM/YY" required>
+                                            </div>
+                                            <div class="input-field">
+                                                <label>CVV*</label>
+                                                <input type="text" id="cvv" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <br>
+                                    <button type="submit" class="btn btn-secondary">Update Payment Details<span class="ms-2 "><i
+                                                class="fa-solid fa-arrow-right"></i></span></button>
+                                </form>
+                            </div>
+                            <div class="listing_info_box bg-white rounded" id="password">
+                                <h4 class="mb-2">Change Password</h4>
+                                <form>
+                                    <div class="row g-4">
+                                        <div class="col-sm-12">
+                                            <div class="input-field">
+                                                <label>Current Password*</label>
+                                                <input type="password" id="current-password" required>
+                                            </div>
+                                            <div class="input-field">
+                                                <label>New Password*</label>
+                                                <input type="password" id="new-password" required>
+                                            </div>
+                                            <div class="input-field">
+                                                <label>Confirm Password*</label>
+                                                <input type="password" id="confirm-password" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <br>
+                                    <button type="submit" class="profile-btn">Update Password<span class="ms-2 "><i
+                                                class="fa-solid fa-arrow-right"></i></span></button>
+                                </form>
+                            </div>
+                            <div class="listing_info_box bg-white rounded" id="booking">
+                                <h4 class="mb-2">Booking History</h4>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Item</th>
+                                                        <th scope="col">Vehicle</th>
+                                                        <th scope="col">From</th>
+                                                        <th scope="col">To</th>
+                                                        <th scope="col">Status</th>
+                                                        <!-- <th scope="col">Action</th> -->
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="history">
+                                                    <tr>
+                                                        <th scope="row">1</th>
+                                                        <td>Toyota Corolla</td>
+                                                        <td>12/12/2021</td>
+                                                        <td>12:00</td>
+                                                        <td><span class="badge bg-success">Completed</span></td>
+                                                        <!-- <td><a href="#" class="">View</a></td> -->
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="listing_info_box bg-white rounded" id="message">
+                                <h4 class="mb-2">Messages</h4>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="message-notifications">
+                                            <div class="message-notification" id="1">
+                                                <div class="message-info">
+                                                    <span class="sender-name">John Doe</span>
+                                                    <span class="message-time">3 minutes ago</span>
+                                                </div>
+                                                <p class="message-preview">Hey, I just wanted to check in and see how everything is going with the
+                                                    project. Bala blu umbreleda recruit transmission bala electricty 50million bala bala bala townhall bulaba different cassava super from generated from tia-tia agbado agbado blu our agbado electricty down-payment garri army highway broooom blu our bala broooom garri blu 50million our from down-payment eneme electricty line blu broooom umbreleda bala tia-tia from</p>
+                                                <a href="#" class="view-message">View message</a>
+                                            </div>
+                                            <div class="message-notification" id="2">
+                                                <div class="message-info">
+                                                    <span class="sender-name">Jane Smith</span>
+                                                    <span class="message-time">1 hour ago</span>
+                                                </div>
+                                                <p class="message-preview">Thanks for getting back to me about the meeting next week. Let me know if
+                                                    there are
+                                                    any updates.</p>
+                                                <a href="#" class="view-message">View message</a>
+                                            </div>
+                                            <div class="message-notification" id="3">
+                                                <div class="message-info">
+                                                    <span class="sender-name">Michael Johnson</span>
+                                                    <span class="message-time">2 days ago</span>
+                                                </div>
+                                                <p class="message-preview">Can we schedule a call for tomorrow to discuss the progress on the
+                                                    website redesign?
+                                                </p>
+                                                <a href="#" class="view-message">View message</a>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <a href="#" class="view-all-messages">View all messages</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+        <!--car listing section start-->
+
+        <!--car listing section end-->
+
+
+
+    </div>
+    <!-- main content wrapper ends -->
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="at_product_view">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content product_modal shadow">
+                <div class="close-btn-wrapper text-end">
+                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="at_product_view">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <div class="product_view_slider">
+                                <div class="product_feature_img_slider swiper">
+                                    <div class="swiper-wrapper">
+                                        <div class="swiper-slide">
+                                            <img src="../assets/img/home4/pd-1.jpg" alt="feature img" class="img-fluid">
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <img src="../assets/img/home4/pd-1.jpg" alt="feature img" class="img-fluid">
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <img src="../assets/img/home4/pd-1.jpg" alt="feature img" class="img-fluid">
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <img src="../assets/img/home4/pd-1.jpg" alt="feature img" class="img-fluid">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="product_thumb_slider swiper mt-3">
+                                    <div class="swiper-wrapper">
+                                        <div class="swiper-slide">
+                                            <img src="../assets/img/home4/pd-thumb-1.png" alt="thumbnail"
+                                                class="img-fluid">
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <img src="../assets/img/home4/pd-thumb-1.png" alt="thumbnail"
+                                                class="img-fluid">
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <img src="../assets/img/home4/pd-thumb-1.png" alt="thumbnail"
+                                                class="img-fluid">
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <img src="../assets/img/home4/pd-thumb-1.png" alt="thumbnail"
+                                                class="img-fluid">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="product_view_right mt-4 mt-md-0">
+                                <ul class="product_review d-flex align-items-center">
+                                    <li><i class="fa-solid fa-star"></i></li>
+                                    <li><i class="fa-solid fa-star"></i></li>
+                                    <li><i class="fa-solid fa-star"></i></li>
+                                    <li><i class="fa-solid fa-star"></i></li>
+                                    <li><i class="fa-solid fa-star"></i></li>
+                                    <li class="review-total ms-2 text-primary fw-semibold"><a href="#">( 95 Reviews
+                                            )</a></li>
+                                </ul>
+                                <h5 class="product_title mt-3">Aluminium Wheel AR-19 <br> Tire Parts</h5>
+                                <p>Monotonectally simplify frictionless communities via clicks-and-mortar Interactively
+                                    disseminate relationships. </p>
+                                <ul class="key_features">
+                                    <li>Speed: 750 RPM</li>
+                                    <li>Power Source: Cordless-Electric</li>
+                                    <li>Battery Cell Type: Lithium</li>
+                                    <li>Voltage: 20 Volts</li>
+                                    <li>Battery Capacity: 2 Ah</li>
+                                </ul>
+                                <div class="product_color_select mt-3">
+                                    <span class="title text-secondary fw-semibold">Color</span>
+                                    <ul class="d-flex align-items-center">
+                                        <li>
+                                            <input type="radio" name="color">
+                                            <span class="color_circle bg-white border border-1"></span>
+                                        </li>
+                                        <li>
+                                            <input type="radio" name="color">
+                                            <span class="color_circle black-color bg-secondary"></span>
+                                        </li>
+                                        <li>
+                                            <input type="radio" name="color">
+                                            <span class="color_circle red-color bg-primary"></span>
+                                        </li>
+                                        <li>
+                                            <input type="radio" name="color">
+                                            <span class="color_circle bg-warning"></span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="product_price mt-4">
+                                    <del class="fw-semibold">$59.00</del>
+                                    <span class="text-primary fw-semibold ms-2">$29.00</span>
+                                </div>
+                                <div class="add_to_cart_product d-flex align-items-center mb-4 mt-3">
+                                    <form class="d-inline-flex align-items-center">
+                                        <button type="button" class="decrement btn-sm">-</button>
+                                        <input type="text" value="01">
+                                        <button type="button" class="increment btn-sm">+</button>
+                                    </form>
+                                    <a href="#" class="btn btn-secondary btn-sm"><span class="me-1"><i
+                                                class="fa-solid fa-cart-plus"></i></span>Add To Cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--scrolltop button-->
+    <button class="theme-scrolltop-btn"><i class="fa-regular fa-hand-pointer"></i></button>
+    <!--scrolltop button end-->
+
+    <!--build:js-->
+    <script src="../assets/js/vendors/jquery.min.js"></script>
+    <script src="../assets/js/vendors/jquery-ui.min.js"></script>
+    <script src="../assets/js/vendors/appear.js"></script>
+    <script src="../assets/js/vendors/popper.min.js"></script>
+    <script src="../assets/js/vendors/bootstrap.min.js"></script>
+    <script src="../assets/js/vendors/easing.min.js"></script>
+    <script src="../assets/js/vendors/swiper.min.js"></script>
+    <script src="../assets/js/vendors/massonry.min.js"></script>
+    <script src="../assets/js/vendors/bootstrap-slider.js"></script>
+    <script src="../assets/js/vendors/magnific-popup.js"></script>
+    <script src="../assets/js/vendors/waypoints.js"></script>
+    <script src="../assets/js/vendors/counterup.js"></script>
+    <script src="../assets/js/vendors/isotop.pkgd.min.js"></script>
+    <script src="../assets/js/vendors/moment.min.js"></script>
+    <script src="../assets/js/vendors/date-picker.min.js"></script>
+    <script src="../assets/js/vendors/progressbar.js"></script>
+    <script src="../assets/js/vendors/slick.js"></script>
+    <script src="../assets/js/vendors/countdown.min.js"></script>
+    <script src="../assets/js/vendors/custom-scrollbar.js"></script>
+    <script src="../assets/js/vendors/price-range.js"></script>
+    <script src="../assets/js/app.js"></script>
+    <script src='../assets/js/api.js'></script>
+    <script src='../assets/js/custom.js'></script>
+    <!--endbuild-->
+</body>
+
+</html>
