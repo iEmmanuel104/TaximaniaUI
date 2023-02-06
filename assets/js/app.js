@@ -928,6 +928,76 @@
       $(".toggle_btn").html('<i class="fas fa-bars"></i>');
     });
   });
+  // $(document).on('click', '#updatenow', function (e) {
+  //   console.log('clicked');
+  //   e.preventDefault();
+  //   let id = $(this).attr('href');
+  //   $(id).modal('toggle');
+  // });
+
+  // $(document).on('click', '.close-update', function () {
+  //   $('.updatevehicle').modal('hide');
+  // });
+
+  $(document).ready(function () {
+    $("#modal-close").click(function () {
+      $("#modal-overlay").remove();
+      $("#cashPayModal").remove();
+      $("#vehicleDetailsModal")
+      $('.modal-backdrop').remove();
+    });
+  });
+
+$(document).ready(function () {
+    $("#edit-img").click(function () {
+        $("#image-input").click();
+    });
+
+    $("#image-input").change(function () {
+        let input = this;
+        let reader = new FileReader();
+        reader.onload = function (e) {
+            $("#user-img").attr("src", e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+    });
+});
+
+  $(document).ready(function () {
+    $('.ratingstar i').mouseover(function () {
+      let index = $(this).data('index');
+      for (let i = 0; i <= index; i++) {
+        $('.ratingstar i').eq(i).addClass('rated');
+      }
+    });
+
+    $('.ratingstar i').mouseout(function () {
+      $('.ratingstar i').not('.selected').removeClass('rated');
+    });
+
+    $('.ratingstar i').click(function () {
+      let index = $(this).data('index');
+      $('#ratingInput').val(index + 1);
+      $('.ratingstar i').removeClass('selected');
+      for (let i = 0; i <= index; i++) {
+        $('.ratingstar i').eq(i).addClass('selected');
+      }
+      console.log(index + 1)
+    });
+
+    $('#submitRating').click(function () {
+      let rating = $('#ratingInput').val();
+      let review = $('#reviewInput').val();
+
+      console.log('Rating: ', rating);
+
+      // Submit the rating and review to the server
+
+      // Clear the form fields
+      $('#ratingInput').val('');
+      $('#reviewInput').val('');
+    });
+  });
 
 
 

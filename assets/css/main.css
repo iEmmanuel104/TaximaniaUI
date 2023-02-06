@@ -34288,12 +34288,13 @@ a.social-btn:hover {
 }
 .filter-card-item .compare-btn {
   left: 16px;
+  margin-right: 16px;
   top: 16px;
   z-index: 1;
   opacity: 0;
 }
 .filter-card-item .wish-btn {
-  left: 55px;
+  left: 95px;
   top: 16px;
   z-index: 1;
   opacity: 0;
@@ -40424,3 +40425,25 @@ label #cancel{
     /* styles for large screens */
   }
 
+.user-img  {
+  position: relative;
+}
+
+.edit-icon {
+  position: absolute;
+  bottom: 0;
+  right: 50%;
+  /* color: var(--bs-progress-bar-bg); */
+  background-color: light-gray;
+  border: none;
+  border-radius: 50%;
+  outline: none;
+}
+
+.ratingstar i {
+  color: #ccc;
+}
+
+.ratingstar .rated {
+  color: #f00;
+}

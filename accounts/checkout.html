@@ -43,11 +43,15 @@
 
         <!--toastify -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.11.0/toastify.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.11.0/toastify.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.11.0/toastify.min.js"></script> 
 
     <!--axios cdn-->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="../assets/css/custom.css" />
+
+    <!-- flutterwave payment -->
+    <script src="https://checkout.flutterwave.com/v3.js"></script> 
+
 
 </head>
 
@@ -81,19 +85,19 @@
                                 <a href="car-listing.html" class="listing-btn ms-4 d-none d-md-block"><span
                                         class="icon-wrapper d-inline-flex align-items-center justify-content-center rounded-circle me-2"><i
                                             class="fa-solid fa-plus"></i></span>Add Listing</a>
-                                <div class="apt_header_search dropdown ms-4">
-                                    <button class="apt_search_toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="fa-solid fa-magnifying-glass"></i>
-                                    </button>
-                                    <div class="dropdown-menu dropdown-menu-end p-0 border border-1 rounded overflow-hidden"
-                                        style="">
-                                        <form class="d-flex align-items-center">
-                                            <input type="text" placeholder="Search...">
-                                            <button type="submit"
-                                                class="bg-transparent text-secondary fw-bold border-start px-3">Go</button>
-                                        </form>
-                                    </div>
-                                </div>
+                                <!-- <div class="apt_header_search dropdown ms-4">
+                                            <button class="apt_search_toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="fa-solid fa-magnifying-glass"></i>
+                                            </button>
+                                            <div class="dropdown-menu dropdown-menu-end p-0 border border-1 rounded overflow-hidden"
+                                                style="">
+                                                <form class="d-flex align-items-center">
+                                                    <input type="text" placeholder="Search...">
+                                                    <button type="submit"
+                                                        class="bg-transparent text-secondary fw-bold border-start px-3">Go</button>
+                                                </form>
+                                            </div>
+                                        </div> -->
         
                                 <button class="ofcanvus-toggle header-toggle-btn ms-4 d-none d-lg-block">
                                     <i class="fa-solid fa-user"></i>
@@ -130,9 +134,9 @@
         
                     <li><a href="profile.html#vin"><i class="fa-solid fa-car"></i>&nbsp; My Vehicles </a></li>
         
-                    <li><a href="profile.html#payment"><i class="fa-solid fa-credit-card"></i>&nbsp; My Payments </a></li>
+                    <li><a href="profile.html#booking"><i class="fa-solid fa-book"></i>&nbsp; Bookings </a></li>
         
-                    <li><a href="profile.html#message"><i class="fa-solid fa-envelope"></i>&nbsp; My Messages </a></li>
+                    <!-- <li><a href="profile.html#message"><i class="fa-solid fa-envelope"></i>&nbsp; My Messages </a></li> -->
                 </ul>
             </nav>
             <a id="logout" class="btn btn-primary btn-sm mt-4">Logout</a>
@@ -149,27 +153,26 @@
                     <div class="user-img" href="profile.html">
                         <i class="fa-solid fa-user"></i>
                     </div>
-        
+                    <p class="mb-0" id="username"></p>
                     <!-- center user info -->
                     <div class="user-info">
-                        <p class="mb-0">
-                        <p class="mb-0" id="username"></p>
                         <!-- <a class="text-primary" id="email"></a> -->
                         <a href="profile.html#info"><i class="fa-solid fa-user"></i>
                             <h5> Profile</h5>
                         </a>
                         <a href="profile.html#vin"><i class="fa-solid fa-car"></i>
-                            <h5> My Vehicles</h5>
+                            <h5> Vehicles</h5>
                         </a>
-                        <a href="profile.html#payment"><i class="fa-solid fa-credit-card"></i>
-                            <h5> My Payments</h5>
+                        <a href="car-listing.html"><i class="fa-solid fa-circle-plus"></i>
+                            <h5> Add Listing</h5>
                         </a>
-                        <a href="profile.html#message"><i class="fa-solid fa-envelope"></i>
-                            <h5> My Messages</h5>
+                        <a href="profile.html#booking"><i class="fa-solid fa-book"></i>
+                            <h5> Bookings</h5>
                         </a>
-                        </p>
+                        <!-- <a href="profile.html#message"><i class="fa-solid fa-envelope"></i><h5>  My Messages</h5></a> -->
                     </div>
                 </div>
+                <br>
                 <a id="logout" class="btn btn-primary btn-sm">Logout</a>
             </div>
         </div>
@@ -209,19 +212,19 @@
                                     <div class="col-lg-6">
                                         <div class="input-field">
                                             <label>First name*</label>
-                                            <input type="text" placeholder="First name" class="w-100 border rounded">
+                                            <input id="fname" placeholder="First name" class="w-100 border rounded" disabled>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="input-field">
                                             <label>Last name*</label>
-                                            <input type="text" placeholder="Last name" class="w-100 border rounded">
+                                            <input id="lname" placeholder="Last name" class="w-100 border rounded" disabled>
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
                                         <div class="input-field">
                                             <label>Billing address</label>
-                                            <input type="text" placeholder="House number and street name" class="w-100 border rounded">
+                                            <input id="address" placeholder="House number and street name" class="w-100 border rounded" disabled>
                                         </div>
                                     </div>
                                     <!-- <div class="col-lg-12">
@@ -233,13 +236,13 @@
                                     <div class="col-lg-12">
                                         <div class="input-field">
                                             <label>Phone*</label>
-                                            <input type="tel" placeholder="Phone" class="w-100 border rounded">
+                                            <input id="tel" placeholder="Phone" class="w-100 border rounded" disabled>
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
                                         <div class="input-field">
                                             <label>Email address*</label>
-                                            <input type="email" placeholder="Email address" class="w-100 border rounded">
+                                            <input id="email" placeholder="Email address" class="w-100 border rounded" disabled>
                                         </div>
                                     </div>
                                     <!-- <div class="col-lg-12">
@@ -306,39 +309,18 @@
                         <div class="order-sidebar bg-white rounded mt-30">
                             <h4 class="mb-3">Your order</h4>
                             <span class="spacer"></span>
-                            <table class="w-100">
-                                <tr>
-                                    <th>Product</th>
-                                    <th>Subtotal</th>
-                                </tr>
-                                <tr>
-                                    <td>Aluminium Wheel AR-19</td>
-                                    <td>$1236.000</td>
-                                </tr>
-                                <tr>
-                                    <td>Subtotal</td>
-                                    <td>$1236.00</td>
-                                </tr>
-                                <tr>
-                                    <td>Shipping Fee</td>
-                                    <td>$20</td>
-                                </tr>
+                            <table class="w-100" id="orderinfo">
                             </table>
                             <!-- <form class="coupon-form d-flex align-items-center my-2">
                                 <input type="text" placeholder="coupon" class="border w-100 rounded">
                                 <button type="submit" class="btn btn-secondary ms-3">Apply</button>
                             </form> -->
-                            <table class="w-100">
-                                <tr>
-                                    <th>Total:</th>
-                                    <th>$1256.00</th>
-                                </tr>
-                            </table>
+
                             <div class="payments-method mt-4">
-                                <!-- <label><input type="radio" class="me-2" name="payments">   Cash Payment</label> -->
-                                <label><input type="radio" class="me-2" name="payments"><img src="../assets/img/icons/flutterwave-logo-vector.svg" alt="cards" class="ms-3" style="height: 145px;"></label>
+                                <label><input type="radio" class="me-2" name="cash-pay"> <span class="mr-10"><i class="fa-solid fa-credit-card text-success"></i> Cash pay</span></label> 
+                                <label><input type="radio" class="me-2" name="flutter-pay"><img src="../assets/img/icons/flutterwave-logo-vector.svg" alt="cards" class="ms-3" ></label>
                             </div>
-                            <button type="submit" class="btn btn-primary btn-md mt-30">Place Order</button>
+                            <button type="submit" id="paynow" class="btn btn-primary btn-md mt-30">Pay Now</button>
                         </div>
                     </div>
                 </div>
@@ -454,6 +436,34 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="cashPayModal" tabindex="-1" role="dialog" aria-labelledby="cashPayModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cashPayModalLabel">Cash Payment</h5>
+                    <button type="button" class="close" id="modal-close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Please make your payment to the following account:</p>
+                    <ul>
+                        <li>Account Name: XYZ Inc.</li>
+                        <li>Account Number: 1234567890</li>
+                        <li>Bank Name: ABC Bank</li>
+                    </ul>
+                    <p>For payment confirmation, please call our customer care support at <a
+                            href="tel:123-456-7890">123-456-7890</a>.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="modal-close" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
     <!--scrolltop button-->
     <button class="theme-scrolltop-btn"><i class="fa-regular fa-hand-pointer"></i></button>
     <!--scrolltop button end-->

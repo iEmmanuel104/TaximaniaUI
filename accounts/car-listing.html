@@ -80,19 +80,19 @@
                                 <a href="car-listing.html" class="listing-btn ms-4 d-none d-md-block"><span
                                         class="icon-wrapper d-inline-flex align-items-center justify-content-center rounded-circle me-2"><i
                                             class="fa-solid fa-plus"></i></span>Add Listing</a>
-                                <div class="apt_header_search dropdown ms-4">
-                                    <button class="apt_search_toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="fa-solid fa-magnifying-glass"></i>
-                                    </button>
-                                    <div class="dropdown-menu dropdown-menu-end p-0 border border-1 rounded overflow-hidden"
-                                        style="">
-                                        <form class="d-flex align-items-center">
-                                            <input type="text" placeholder="Search...">
-                                            <button type="submit"
-                                                class="bg-transparent text-secondary fw-bold border-start px-3">Go</button>
-                                        </form>
-                                    </div>
-                                </div>
+                                <!-- <div class="apt_header_search dropdown ms-4">
+                                            <button class="apt_search_toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="fa-solid fa-magnifying-glass"></i>
+                                            </button>
+                                            <div class="dropdown-menu dropdown-menu-end p-0 border border-1 rounded overflow-hidden"
+                                                style="">
+                                                <form class="d-flex align-items-center">
+                                                    <input type="text" placeholder="Search...">
+                                                    <button type="submit"
+                                                        class="bg-transparent text-secondary fw-bold border-start px-3">Go</button>
+                                                </form>
+                                            </div>
+                                        </div> -->
         
                                 <button class="ofcanvus-toggle header-toggle-btn ms-4 d-none d-lg-block">
                                     <i class="fa-solid fa-user"></i>
@@ -129,9 +129,9 @@
         
                     <li><a href="profile.html#vin"><i class="fa-solid fa-car"></i>&nbsp; My Vehicles </a></li>
         
-                    <li><a href="profile.html#payment"><i class="fa-solid fa-credit-card"></i>&nbsp; My Payments </a></li>
+                    <li><a href="profile.html#booking"><i class="fa-solid fa-book"></i>&nbsp; Bookings </a></li>
         
-                    <li><a href="profile.html#message"><i class="fa-solid fa-envelope"></i>&nbsp; My Messages </a></li>
+                    <!-- <li><a href="profile.html#message"><i class="fa-solid fa-envelope"></i>&nbsp; My Messages </a></li> -->
                 </ul>
             </nav>
             <a id="logout" class="btn btn-primary btn-sm mt-4">Logout</a>
@@ -148,27 +148,26 @@
                     <div class="user-img" href="profile.html">
                         <i class="fa-solid fa-user"></i>
                     </div>
-        
+                    <p class="mb-0" id="username"></p>
                     <!-- center user info -->
                     <div class="user-info">
-                        <p class="mb-0">
-                        <p class="mb-0" id="username"></p>
                         <!-- <a class="text-primary" id="email"></a> -->
                         <a href="profile.html#info"><i class="fa-solid fa-user"></i>
                             <h5> Profile</h5>
                         </a>
                         <a href="profile.html#vin"><i class="fa-solid fa-car"></i>
-                            <h5> My Vehicles</h5>
+                            <h5> Vehicles</h5>
                         </a>
-                        <a href="profile.html#payment"><i class="fa-solid fa-credit-card"></i>
-                            <h5> My Payments</h5>
+                        <a href="car-listing.html"><i class="fa-solid fa-circle-plus"></i>
+                            <h5> Add Listing</h5>
                         </a>
-                        <a href="profile.html#message"><i class="fa-solid fa-envelope"></i>
-                            <h5> My Messages</h5>
+                        <a href="profile.html#booking"><i class="fa-solid fa-book"></i>
+                            <h5> Bookings</h5>
                         </a>
-                        </p>
+                        <!-- <a href="profile.html#message"><i class="fa-solid fa-envelope"></i><h5>  My Messages</h5></a> -->
                     </div>
                 </div>
+                <br>
                 <a id="logout" class="btn btn-primary btn-sm">Logout</a>
             </div>
         </div>

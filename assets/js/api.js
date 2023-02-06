@@ -1,11 +1,12 @@
 (function ($) {
   "use strict";
-
-let base_URL_Auth = "http://127.0.0.1:8081/api/v1/auth";
-let base_URL_Vehicle = "http://127.0.0.1:8081/api/v1/vehicle";
-let base_URL_Host = "http://127.0.0.1:8081/api/v1/host";
+let base_URL = "http://127.0.0.1:8081/api/v1";
+let base_URL_Auth = `${base_URL}/auth`;
+let base_URL_Vehicle = `${base_URL}/vehicle`;
+let base_URL_Host = `${base_URL}/host`;
 let clientside_Url = "http://127.0.0.1:5500";
-let base_URL_booking = "http://127.0.0.1:8081/api/v1/bookings";
+let base_URL_booking = `${base_URL}/bookings`;
+let base_URL_Payment = `${base_URL}/Payments`;
 
 const form = document.getElementById('signup-form');
 const verifyform = document.getElementById('verify-form');
@@ -71,48 +72,101 @@ const clearLocalStorage = () => {
   localStorage.removeItem('userId');
   localStorage.removeItem('lastDisplayedSection')
 }
+const convertToStandardDate = (dateString) => {
+  const dateValues = dateString.split("/");
+  const month = dateValues[0] - 1; // JavaScript uses a zero-indexed month
+  const day = dateValues[1];
+  const year = dateValues[2].split(" ")[0];
+  const timeValues = dateValues[2].split(" ")[1].split(":");
+  const hour = timeValues[0];
+  const minute = timeValues[1];
+  const ampm = dateValues[2].split(" ")[2];
+  const standardDate = new Date(year, month, day, hour, minute, 0, 0);
+  if (ampm === "PM") {
+    standardDate.setHours(standardDate.getHours() + 12);
+  }
+  return standardDate.toLocaleString();
+};
+// capitalize first letter of string
+const capitalize = (s) => {
+  if (typeof s !== 'string') return ''
+  return s.charAt(0).toUpperCase() + s.slice(1)
+}
 
-  const convertToStandardDate = (dateString) => {
-    const dateValues = dateString.split("/");
-    const month = dateValues[0] - 1; // JavaScript uses a zero-indexed month
-    const day = dateValues[1];
-    const year = dateValues[2].split(" ")[0];
-    const timeValues = dateValues[2].split(" ")[1].split(":");
-    const hour = timeValues[0];
-    const minute = timeValues[1];
-    const ampm = dateValues[2].split(" ")[2];
-    const standardDate = new Date(year, month, day, hour, minute, 0, 0);
-    if (ampm === "PM") {
-      standardDate.setHours(standardDate.getHours() + 12);
-    }
-    return standardDate.toLocaleString();
-  };
+const restrictpages = (usertype) => {
+  if (usertype === 'HOST') {
+    // do not display all pages with className 'PAYMENT'
+    const paymentPages = document.querySelectorAll('.payment');
+    paymentPages.forEach((page) => {
+      page.style.display = 'none';
+    });
+  }
+};
 //  ========================================================
 // ========              API CALLS                ==========
 // =========================================================
 
 
-const axiosErrorHandling = (error) => {
-  // check for jwt expired error
-  if (error.response) {
-    if (error.response.data === "jwt expired") {
-      console.log('jwt expired');
-      Toastifymessage('info', 'Session expired, please login again');
-      clearLocalStorage();
-      setTimeout(() => {
-        window.location.href = clientside_Url + "/login.html";
-      }, 1000);
-    } 
-    if (error.response.data.msg) {
-      Toastifymessage('error', error.response.data.msg);
+  const axiosErrorHandling = (error) => {
+    // check for jwt expired error
+    if (error.response) {
+      if (error.response.data === "jwt expired") {
+        console.log('jwt expired');
+        Toastifymessage('info', 'Session expired, please login again');
+        clearLocalStorage();
+        setTimeout(() => {
+          window.location.href = clientside_Url + "/login.html";
+        }, 1000);
+      }
+      if (error.response.data.msg) {
+        Toastifymessage('error', error.response.data.msg);
+      }
     }
+    // network error message
+    if (error.message === "Network Error") {
+      Toastifymessage('error', 'Network error, please check your internet connection');
+    }
+    // handle errors from db, sequelize or postgres
+    if (error.name === "SequelizeDatabaseError" || error.name === "SequelizeValidationError") {
+      Toastifymessage('error', 'Oops an error occurred on our end, please try again later');
+    } else if (error.name === "PostgresError") {
+      Toastifymessage('error', 'Oops an error occurred on our end, please try again later');
+    } 
   }
-  // network error message
-  if (error.message === "Network Error") {
-    Toastifymessage('error', 'Network error, please check your internet connection');
-  } 
-}
 
+  const makePayment = (paydetails) => {
+    console.log('in makepayment', paydetails)
+    FlutterwaveCheckout({
+      public_key: paydetails.publicKey,
+      tx_ref: paydetails.tx_ref,
+      amount: paydetails.amount,
+      currency: "NGN",
+      payment_options: "card, banktransfer, ussd",
+      redirect_url: `${clientside_Url}/accounts/ride-detail.html`,
+      meta: {
+        vehicle_id: paydetails.vehicle_id,
+        HostUser: paydetails.HostUser,
+        BookingId: paydetails.BookingId,
+        user_id: paydetails.user_id,
+      },
+      customer: {
+        email: paydetails.email,
+        phone_number: paydetails.phone,
+        name: paydetails.fullname
+      },
+      customizations: {
+        title: "Taximania Ride Payment",
+        description: "Ride Payment for your booking",
+        logo: paydetails.logo,
+      },
+      onclose : function( incomplete ) {
+        console.log('incomplete', incomplete)
+        if (incomplete) {
+          Toastifymessage('info', 'Payment incomplete, please try again');
+        }
+      },
+    })
+  }  
 
 //  ============== HOST REGISTER ================== 
 
@@ -128,6 +182,9 @@ if (form) {
       confirmpassword: $("#confirm-password").val(),
       phone: $("#phone").val(),
       address: $("#address").val(),
+      city: $("#city").val(),
+      state: $("#state").val(),
+      country: $("#country").val(),
       terms: $("#terms").val(),
       agedeclaration: $("#agedeclaration").val(),
   };
@@ -198,7 +255,7 @@ if (verifyform) {
     // Make the Axios request
     axios.post(base_URL_Auth + "/verify", data, { headers })
       .then((response) => {
-        Toastifymessage('success', 'Account verified, Please login');
+        Toastifymessage('success', 'Account Email verified, Please login');
         console.log(response.data);
         // redirect to login page after 8 seconds
         setTimeout(() => {
@@ -262,6 +319,7 @@ if (loginform) {
         localStorage.setItem('email', response.data.user.email);
         localStorage.setItem('username', response.data.user.username);
         localStorage.setItem('userId', response.data.user.user_id);
+
         setTimeout(() => {
           window.location.href = "/accounts/dashboard.html";
         }, 2000);
@@ -285,6 +343,7 @@ const protectedPages = [
   '/accounts/car-rental.html',
   '/accounts/checkout.html',
   '/accounts/profile.html',
+  '/accounts/ride-detail.html',
 ];
 
 // ============ DASHBOARD PAGES ==================
@@ -304,8 +363,6 @@ if (protectedPages.includes(window.location.pathname)) {
   usernameElement.forEach((element) => {
     element.textContent = username;
   });
-
-
   $('#email').text(email);
 
   // console log particular page name
@@ -355,31 +412,46 @@ if (protectedPages.includes(window.location.pathname)) {
     // Make the Axios request to get all cars
     axios.get(base_URL_Vehicle + "/getall", { headers }) 
       .then((response) => {
-        console.log('axios success');
-        const item = response.data.vehicle;
-        // populate car booking section
-        const carlist = document.getElementById('car-list');
-        // populate car booking section with data from the database
-        for (let i = 0; i < item.length; i++) {
-          const image = item[i].vehicleImages[0];
-          const name = item[i].vehicleMake + ' ' + item[i].vehicleModel;
-          const vehicleId = item[i].vehicleId;
-          const rate = item[i].vehiclerate;
-          const capacity = item[i].vehicleCapacity;
-          const transmission = item[i].vehicleTransmission;
-          const fuel = item[i].vehicleFuel;
-          const doors = item[i].vehicleDoors;
-          // populate database data first
-
-          carlist.innerHTML += `
+        const item = response.data.vehicle
+        console.log(item);
+        const populateCarBooking = (item) => {
+          const carlist = document.getElementById('car-list');
+          // populate car booking section with data from the database
+          for (let i = 0; i < item.length; i++) {
+            const image = item[i].vehicleImages[0];
+            const name = item[i].vehicleMake + ' ' + item[i].vehicleModel;
+            const vehicleId = item[i].vehicleId;
+            const rate = item[i].vehiclerate;
+            const capacity = item[i].vehicleCapacity;
+            const transmission = item[i].vehicleTransmission;
+            const fuel = item[i].vehicleFuel;
+            const doors = item[i].vehicleDoors;
+            const rentperiod = item[i].rentperiod;
+            const rating = item[i].rating;
+            const location = item[i].vehicleLocation;
+            let period, carrating, iconcolor;
+            if (rentperiod === 1) {
+              period = 'day';
+            } else if (rentperiod > 1) {
+              period = 'days';
+            }
+            if (rating === 0) {
+              // green star
+              carrating = 'New';
+              iconcolor = 'text-success';
+            } else {
+              carrating = rating;
+            }
+            // populate database data first
+            carlist.innerHTML += `
               <div class="col-xl-4 col-lg-6 col-md-6">
                   <div class="car-card h-100">
                       <div class="feature-img overflow-hidden">
                           <img src= ${image} class="img-fluid w-100" alt="car"> 
                       </div>
                       <div class="card-content bg-white position-relative">
-                          <span class="star-rating rounded-pill position-absolute"><span class="me-1"><i
-                                      class="fa-solid fa-star"></i></span>4.5</span>
+                          <span class="star-rating rounded-pill position-absolute ${iconcolor} "><span class="me-1">
+                          <i class="fa-solid fa-star ${iconcolor}"></i></span>${carrating}</span>
                           <a href="car-rental.html?q=${vehicleId}" id="car-link">
                               <h5>${name}</h5>
                           </a>
@@ -388,8 +460,8 @@ if (protectedPages.includes(window.location.pathname)) {
                                   <span><strong class="text-primary fw-bold">$${rate}</strong> / Day</span>
                               </div>
                               <div class="info-right ms-4">
-                                  <span class="text-secondary"><strong class="fw-bold">$38500</strong>
-                                      /Month</span>
+                                  <span class="text-secondary"><strong class="fw-bold">${rentperiod} ${period}</strong>
+                                      max rent</span>
                               </div>
                           </div>
                           <ul class="car-info mt-3">
@@ -397,6 +469,7 @@ if (protectedPages.includes(window.location.pathname)) {
                               <li><span class="me-2"><i class="flaticon-steering-wheel"></i></span>Transmission: ${transmission}</li>
                               <li><span class="me-2"><i class="flaticon-car"></i></span>Fuel Type: ${fuel}</li>
                               <li><span class="me-2"><i class="flaticon-car-door"></i></span>Doors: ${doors}</li>
+                              <li class="d-none"><span class="me-2 d-none"><i class="flaticon-location"></i></span>Location: ${location}</li>
                           </ul>
                           <div class="card-btns mt-4">
                               <a href="car-rental.html?q=${vehicleId}#rental-form" class="btn btn-secondary btn-sm">Booking Now</a>
@@ -406,8 +479,97 @@ if (protectedPages.includes(window.location.pathname)) {
                   </div>
               </div>
           `;
+          } 
+        }
 
-        } 
+
+        // sort item by search input value
+        const searchInput = document.getElementById('search-input');
+        if (searchInput) {
+          searchInput.addEventListener('input', (event) => {
+            const searchValue = event.target.value.toLowerCase();
+            // return all items that match the search value
+            const filteredItems = item.filter((item) => {
+              console.log(item.vehicleMake.toLowerCase().includes(searchValue));
+              return (
+                item.vehicleMake.toLowerCase().includes(searchValue) ||
+                item.vehicleModel.toLowerCase().includes(searchValue) ||
+                item.vehicleLocation.toLowerCase().includes(searchValue)
+              );
+            });
+            // clear car list
+            const carlist = document.getElementById('car-list');
+            carlist.innerHTML = '';
+            populateCarBooking(filteredItems);
+          });
+        }
+        populateCarBooking(item);
+        // populate car booking section
+        // const carlist = document.getElementById('car-list');
+        // // populate car booking section with data from the database
+        // for (let i = 0; i < item.length; i++) {
+        //   const image = item[i].vehicleImages[0];
+        //   const name = item[i].vehicleMake + ' ' + item[i].vehicleModel;
+        //   const vehicleId = item[i].vehicleId;
+        //   const rate = item[i].vehiclerate;
+        //   const capacity = item[i].vehicleCapacity;
+        //   const transmission = item[i].vehicleTransmission;
+        //   const fuel = item[i].vehicleFuel;
+        //   const doors = item[i].vehicleDoors;
+        //   const rentperiod = item[i].rentperiod;
+        //   const rating = item[i].rating;
+        //   const location = item[i].vehicleLocation;
+        //   let period, carrating, iconcolor;
+        //   if (rentperiod === 1) {
+        //     period = 'day';
+        //   } else if (rentperiod > 1) {
+        //     period = 'days';
+        //   }
+        //   if (rating === 0) {
+        //     // green star
+        //     carrating = 'New';
+        //     iconcolor = 'text-success';
+        //   } else {
+        //     carrating = rating;
+        //   }
+        //   // populate database data first
+        //   carlist.innerHTML += `
+        //       <div class="col-xl-4 col-lg-6 col-md-6">
+        //           <div class="car-card h-100">
+        //               <div class="feature-img overflow-hidden">
+        //                   <img src= ${image} class="img-fluid w-100" alt="car"> 
+        //               </div>
+        //               <div class="card-content bg-white position-relative">
+        //                   <span class="star-rating rounded-pill position-absolute ${iconcolor} "><span class="me-1">
+        //                   <i class="fa-solid fa-star ${iconcolor}"></i></span>${carrating}</span>
+        //                   <a href="car-rental.html?q=${vehicleId}" id="car-link">
+        //                       <h5>${name}</h5>
+        //                   </a>
+        //                   <div class="pricing-info d-flex align-items-center">
+        //                       <div class="info-left">
+        //                           <span><strong class="text-primary fw-bold">$${rate}</strong> / Day</span>
+        //                       </div>
+        //                       <div class="info-right ms-4">
+        //                           <span class="text-secondary"><strong class="fw-bold">${rentperiod} ${period}</strong>
+        //                               max rent</span>
+        //                       </div>
+        //                   </div>
+        //                   <ul class="car-info mt-3">
+        //                       <li><span class="me-2"><i class="flaticon-drive"></i></span>Passengers: ${capacity}</li>
+        //                       <li><span class="me-2"><i class="flaticon-steering-wheel"></i></span>Transmission: ${transmission}</li>
+        //                       <li><span class="me-2"><i class="flaticon-car"></i></span>Fuel Type: ${fuel}</li>
+        //                       <li><span class="me-2"><i class="flaticon-car-door"></i></span>Doors: ${doors}</li>
+        //                       <li class="d-none"><span class="me-2 d-none"><i class="flaticon-location"></i></span>Location: ${location}</li>
+        //                   </ul>
+        //                   <div class="card-btns mt-4">
+        //                       <a href="car-rental.html?q=${vehicleId}#rental-form" class="btn btn-secondary btn-sm">Booking Now</a>
+        //                       <a href="car-rental.html?q=${vehicleId}" class="btn btn-sm ms-2 border">View Details</a>
+        //                   </div>
+        //               </div>
+        //           </div>
+        //       </div>
+        //   `;
+        // } 
       }) 
       .catch((error) => {
         axiosErrorHandling(error);
@@ -416,8 +578,6 @@ if (protectedPages.includes(window.location.pathname)) {
   }
 
   // ================== CAR RENTAL ======================
-  // on click of car-link  anchor tag
-
   if (window.location.href.includes("/car-rental") ) {
 
     // add load event lconst istener
@@ -431,6 +591,7 @@ if (protectedPages.includes(window.location.pathname)) {
       // get car details from database
         const headers = {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
         } 
         // Make the Axios request to get all cars
         let currentImageIndex = 0;
@@ -453,7 +614,22 @@ if (protectedPages.includes(window.location.pathname)) {
             const description = vehicle.vehicleDescription;
             const location = vehicle.vehicleLocation;
             const imageContainer = document.querySelector(".slider-content")
-
+            const rating = vehicle.rating;
+            const rentperiod = vehicle.rentperiod;
+            let period, carrating, iconcolor;
+            if (rentperiod === 1) {
+              period = 'day';
+            } else if (rentperiod > 1) {
+              period = 'days';
+            }
+            if (rating === 0) {
+              // green star
+              carrating = 'New';
+              iconcolor = 'text-success';
+            } else {
+              carrating = rating;
+            }
+            // slider
             for (let i = 0; i < vehicleImages.length; i++) {
               const img = document.createElement("img");
               img.src = vehicleImages[i];
@@ -491,20 +667,33 @@ if (protectedPages.includes(window.location.pathname)) {
               paginationContainer.appendChild(paginationBtn);
             }
 
+            // set  userlocation field
+            const locale = document.querySelector('input[name="hostloc"]');
+            locale.value = location
+
             //  poplate car info section
             const carinfobox = document.querySelector('.car-info-box');
             carinfobox.innerHTML = `
-                            <div class="info-left">
-                                <h3>${name}</h3>
-                                <span class="location"><i class="fa-solid fa-location-dot"></i>${location}</span>
-                                <span class="pricing text-primary d-block fw-bold mt-4">$${rate}/<span>Per Day</span></span>
-                            </div>
-                            <div class="right-btns d-flex flex-wrap align-items-center mt-30 mt-md-0">
-                                <span class="verified-badge d-flex align-items-center">
-                                    <i class="fa-solid fa-check-circle color text-primary"></i>
-                                    <span> Verified</span>
-                            </div>
-                            `
+                <div class="info-left">
+                    <h3>${name} &nbsp;
+                      <span class="star-rating rounded-pill position-absolute ${iconcolor} "><span class="me-1">
+                        <i class="fa-solid fa-star ${iconcolor}"></i></span>${carrating}</span> 
+                    </h3>
+                    <span class="location"><i class="fa-solid fa-location-dot"></i>${location} 
+                    
+                    </span>
+                    <span class="pricing text-primary d-block fw-bold mt-4">$${rate}/<span>Per Day</span>
+                      &nbsp; <br/> <h6 class="text-muted fw-normal">(${rentperiod}) ${period} max</h6>
+                                    </span>
+
+
+                </div>
+                <div class="right-btns d-flex flex-wrap align-items-center mt-30 mt-md-0">
+                    <span class="verified-badge d-flex align-items-center">
+                        <i class="fa-solid fa-check-circle color text-primary"></i>
+                        <span> Verified</span>
+                </div>
+                `
             //  poplate car description section
             const cardescription = document.querySelector('.rental-feature-box');
             cardescription.innerHTML = `                            
@@ -611,8 +800,73 @@ if (protectedPages.includes(window.location.pathname)) {
               <h6 class="mb-3"><span class="dot me-2"></span>Owners description and Rules</h6>
               <p class="mb-4">${description}</p>
 
-              `;
-            
+              `;  
+              
+            // populate bottom page car slider section
+
+            const rentcar_slider = document.getElementById('rentcar_slider');
+            const vehicleMake = vehicle.vehicleMake;
+            const vehicleLocation = vehicle.vehicleLocation;
+
+            axios.post(base_URL_Host + `/slidevehicle?vehiicleMake=${vehicleMake}&vehicleLocation=${vehicleLocation}&rating=${rating}`, { headers })
+              .then((response) => {
+                console.log(response.data);
+                const vehicles = response.data.slides;
+                for (let i = 0; i < vehicles.length; i++) {
+                  const vehicle = vehicles[i];
+                  const { vehicleMake, vehicleModel, vehicleYear, vehicleFuel, vehicleImages, rentperiod, vehicleId, vehiclerate, vehicleTransmission, rating, vehicleCondition } = vehicle;
+                  const image = vehicleImages[0];
+                  let carrating, iconcolor;
+                  if (rating === 0) {
+                    // green star
+                    carrating = '';
+                    iconcolor = 'text-success';
+                  } else {
+                    carrating = rating;
+                  }
+                  rentcar_slider.innerHTML += `
+                      <div class="filter-card-item position-relative overflow-hidden rounded bg-white swiper-slide car-card">
+                          <a href="#" class="star-rating rounded-pill compare-btn position-absolute "><span class="compare-count text-dark">${vehicleCondition}</span></a>
+                          <a href="#" class=" wish-btn position-absolute"><i class="fa-solid fa-star ${iconcolor}"></i></span>${carrating}</span></a>
+                          <span class="date position-absolute">${vehicleYear}</span>
+                          <div class="feature-thumb position-relative overflow-hidden feature-img">
+                              <a href="car-rental.html"><img src=${image} alt="car" class="img-fluid w-100"></a>
+                          </div>
+                          <div class="filter-card-content">
+                              <div class="price-btn text-end position-relative">
+                                  <span class="small-btn-meta">$${vehiclerate} / Day</span>
+                              </div>
+                              <a href="car-rental.html" class="mt-4 d-block">
+                                  <h5>${vehicleMake} ${vehicleModel}</h5>
+                              </a>
+                              <span class="meta-content"><strong>Max rent period:</strong> <a href="#">${rentperiod}</a></span>   
+                              <hr class="spacer mt-3 mb-3">
+                              <div class="card-feature-box d-flex align-items-center mb-4">
+                                  <div class="icon-box d-flex align-items-center">
+                                      <span class="me-2"><i class="flaticon-speedometer"></i></span>
+                                      120cc
+                                  </div>
+                                  <div class="icon-box d-flex align-items-center">
+                                      <span class="me-2"><i class="flaticon-steering-wheel"></i></span>
+                                      ${vehicleTransmission}
+                                  </div>
+                                  <div class="icon-box d-flex align-items-center">
+                                      <span class="me-2"><i class="flaticon-petrol"></i></span>
+                                      ${vehicleFuel}
+                                  </div>
+                              </div>
+                              <a href="car-rental.html?q=${vehicleId}" class="btn outline-btn btn-sm d-block">View Details</a>
+                          </div>
+                      </div>
+                      `;
+                  }
+              })
+              .catch((error) => {
+                axiosErrorHandling(error);
+                console.error(error);
+              });
+
+
 
           })
           .catch((error) => {
@@ -649,34 +903,30 @@ if (protectedPages.includes(window.location.pathname)) {
               toLocation: document.querySelector('input[type="pacinput2"]').value,
             }
             console.log($('#startDate').val())
-            console.log(data);
             const headers = {
               'Content-Type': 'application/json',
               'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
             }
             const userId = localStorage.getItem('userId');
             // send form data to server
-            // axios.post(`${base_URL_booking}/bookride/${userId}/${vehicleId}`, data, { headers }) 
-            //   .then((response) => {
-            //     console.log(response.data.booking);
-            //     if (response.status === 201) {
-            //       Toastifymessage('success', 'Booking initiated, please proceed to checkout');
-            //       console.log('yes')
-            //       const booking = response.data.booking;
-            //       console.log(booking);
-            //       const t = booking.bookingId;
-            //       console.log(t);
-            //       // redirect to checkout page
-            //       setTimeout(() => {
-            //         window.location.href = `checkout.html?t=${t}`;
-            //       }, 2000);
-            //     }
-            //   })
-            //   .catch((error) => {
-            //     axiosErrorHandling(error);
-            //     console.error(error);
-            //   });
-          
+            axios.post(`${base_URL_booking}/bookride/${userId}/${vehicleId}`, data, { headers }) 
+              .then((response) => {
+                if (response.status === 201) {
+                  Toastifymessage('success', 'Booking initiated, please proceed to checkout');
+                  console.log('yes')
+                  const booking = response.data.booking;
+                  const t = booking.bookingId;
+                  console.log(t);
+                  // redirect to checkout page
+                  setTimeout(() => {
+                    window.location.href = `checkout.html?t=${t}`;
+                  }, 1000);
+                }
+              })
+              .catch((error) => {
+                axiosErrorHandling(error);
+                console.error(error);
+              });    
 
           });  
       }
@@ -745,19 +995,108 @@ if (protectedPages.includes(window.location.pathname)) {
     console.log('booking', bookingId);
     const headers = {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+      'authorization': `Bearer ${localStorage.getItem('accessToken')}`
     }
-    // axios.get(`${base_URL_booking}/getbooking/${userId}/${bookingId}`, { headers })
-    //   .then((response) => {
-    //     console.log('yes')
-    //     console.log(response.data.booking);
-    //   }) 
-    //   .catch((error) => {
-    //     axiosErrorHandling(error);
-    //     console.error(error);
-    //   });
+    const userId = localStorage.getItem('userId');    
 
-  }
+    axios.get(`${base_URL_Host}/checkoutpage/data/${bookingId}/${userId}`, { headers })
+      .then((response) => {
+        console.log(response.data.checkoutdata);
+        const checkoutdata = response.data.checkoutdata;
+        const fullName = checkoutdata.user.fullName;
+        const address = checkoutdata.user.address;
+        const phone = checkoutdata.user.phone;
+        const firstname = fullName.split(' ')[0];
+        const lastname = fullName.split(' ')[1];
+        document.getElementById('fname').value = firstname;
+        document.getElementById('lname').value = lastname;
+        document.getElementById('email').value = email;
+        document.getElementById('address').value = address;
+        document.getElementById('tel').value = phone;
+        const bookrate = checkoutdata.bookingRate;
+        const vehiclename = checkoutdata.vehicleName;
+        const days = checkoutdata.days;
+        const bookingAmount = checkoutdata.bookingAmount;
+        const charge = checkoutdata.charge;
+
+
+        const orderinfo = document.getElementById('orderinfo'); 
+        orderinfo.innerHTML = `
+            <tr>
+                <th>Product</th>
+                <th>Subtotal</th>
+            </tr>
+            <tr>
+                <td>${vehiclename}</td>
+                <td>${bookrate} / Day</td>
+            </tr>
+            <tr>
+                <td>Booking days</td>
+                <td>${days}</td>
+            </tr>
+            <tr>
+                <td>Booking Amount</td>
+                <td>${charge}</td>
+            </tr>
+            <table class="w-100">
+                <tr>
+                    <th>Total:</th>
+                    <th>${bookingAmount}</th>
+                </tr>
+            </table>      
+              `
+
+      }) 
+      .catch((error) => {
+        axiosErrorHandling(error);
+        console.error(error);
+      });
+
+    // checkout form
+    document.querySelector("input[name='cash-pay']").addEventListener("change", function () {
+      if (this.checked) {
+        document.querySelector("input[name='flutter-pay']").checked = false;
+      }
+    });
+
+    document.querySelector("input[name='flutter-pay']").addEventListener("change", function () {
+      if (this.checked) {
+        document.querySelector("input[name='cash-pay']").checked = false;
+      }
+    });
+
+    document.getElementById('paynow').addEventListener("click", function (event) {
+      event.preventDefault(); // prevent the form from submitting
+      console.log('clicked');
+      if (document.querySelector("input[name='cash-pay']").checked) {
+        $('#cashPayModal').modal('show');
+      }
+      else if (document.querySelector("input[name='flutter-pay']").checked) {
+        // make axios request to the server
+        const headers = {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+        }
+        console.log('flutter pay');
+        console.log(userId)
+        axios.post(`${base_URL_Payment}/makeflutterwavepayment/now/${bookingId}/${userId}`, { headers })
+          .then((response) => {
+            const paydetails = response.data.paydetails
+            makePayment(paydetails)
+
+        })
+          .catch((error) => {
+            axiosErrorHandling(error);
+            console.error(error);
+          });  
+      }
+      else {
+        Toastifymessage('info', 'Please select a payment method');   
+        // alert('Please select a payment method')
+      }
+    });
+
+}
 
   // ================== PROFILE ======================
   if (window.location.href.indexOf("profile") > -1) {
@@ -771,25 +1110,120 @@ if (protectedPages.includes(window.location.pathname)) {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
     }
+
+    // profile image upload 
+    document.getElementById('edit-img-btn').addEventListener('click', function () {
+      document.getElementById('file-input').click();
+    });
+
+    document.getElementById('file-input').addEventListener('change', function () {
+      let file = this.files[0];
+      let formData = new FormData();
+      formData.append('profileimage', file);
+
+      axios.post( `${base_URL_Host}/uploadprofileimage/${userId}`, formData)
+        .then(function (response) {
+          console.log(response.data);
+          console.log('success')
+          Toastifymessage('success', 'Profile image updated successfully');
+          // reload the page after 2 seconds
+          setTimeout(function () {
+            window.location.reload();
+          }, 1000);
+
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    });
+
+    // ========== 1 =========
     axios.get(`${base_URL_Host}/profile/${userId}`, { headers })
       .then((response) => {
         console.log(response.data);
         // user info section
         const {Name, Phone, Address} = response.data.info;
-        document.querySelector('input[type="name"]').value = Name;
+        // set value for all input type name as Name
+        const userName = document.querySelectorAll('input[type="name"]')
+        userName.forEach((input) => {
+          input.value = Name;
+        });
+
         document.querySelector('input[type="phone"]').value = Phone;
         document.querySelector('input[type="address"]').value = Address;
+        const { verifyStatus, userImage } = response.data.userData;
+        if (response.data.userData) {
+          const { city, state, country } = response.data.userData;
+          document.querySelector('input[type="city"]').value = city;
+          document.querySelector('input[type="state"]').value = state;
+          document.querySelector('input[type="country"]').value = country;
+        }
+
+      let imagesrc;
+      if (userImage) {
+      imagesrc = userImage;
+      } else {
+      imagesrc = "../assets/img/user.png";
+      // add styles to the image
+      document.querySelector('.user-img img').style.width = '180px';
+      }
+      // use query selector to get the image element inside the div with class user-img
+      document.querySelector('.user-img img').src = imagesrc;
+
+      // add border radius to the image
+      document.querySelector('.user-img img').style.borderRadius = '50%';
+       
+        
+            
+        // if verifyStatus is verified then hide the class input-field  
+        if (verifyStatus === 'Verified') {
+          document.querySelector('#verifyinput').style.display = 'none';
+          document.querySelector('#verify-btn').style.display = 'none';
+          document.querySelector('#employerinput').style.display = 'none';
+          document.getElementById('update-btn').style.display = 'block';
+        }
+        if (verifyStatus === 'Submitted') {
+          const form = document.querySelector('#verifyinput');
+          document.querySelector('#verify-btn').style.display = 'none';
+          document.querySelector('#employerinput').style.display = 'none';
+          form.innerHTML = `
+            <div class="alert alert-info" role="alert">
+            Document upload received. <br>
+              Your verification is currently being processed. Please check back later.
+            </div> `
+        }
+        if (verifyStatus === 'Rejected') {
+          const form = document.querySelector('#verifyinput');
+          form.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+            Your last verification documents was rejected.
+             <br>
+              Please upload a valid document.
+            </div>
+            <div class="col-sm-12 mt-5">
+              <div class="input-field" id="verifyinput">
+                  <label>Upload a copy of your NRC and Drivers license*</label>
+                  <input type="file" id="file_upload" multiple required>
+              </div>
+            </div> `
+        }
+        if (verifyStatus === 'Pending' || verifyStatus === null) {
+          document.querySelector('#verify-btn').style.display = 'block';
+          document.querySelector('#employerinput').style.display = 'block';
+          document.getElementById('update-btn').style.display = 'none';
+        }
+
+        // populate user info section
 
         const hostedvehicles = document.getElementById('hosted-vehicles');
         const unverifiedVehicles = document.getElementById('unverified-vehicles');
+        const detailupdate = document.getElementById('hostedvehicleupdate');
 
         // hosted vehicle section
         var verifiedvehicles = response.data.verifiedVehicles;
-        console.log(verifiedvehicles);
         for (let i = 0; i < verifiedvehicles.length; i++) {
-          const {vehicleMake,vehicleModel,vehiclePlateNumber, vehicleStatus, vehicle_id} = verifiedvehicles[i];
+          const {vehicleMake,vehicleModel,vehiclePlateNumber, vehicleStatus, vehicle_id, vehicleDescription, vehicleLocation, vehiclerate, rentperiod} = verifiedvehicles[i];
           const count = i + 1;
-          console.log(vehicleMake, vehicleModel,vehiclePlateNumber, vehicleStatus, vehicle_id);
           let icon;
           if (vehicleStatus === 'AVAILABLE') {
             icon = 'check-circle text-success'
@@ -798,7 +1232,7 @@ if (protectedPages.includes(window.location.pathname)) {
           }
 
           hostedvehicles.innerHTML += `
-                            <tr class="flex-nowrap">
+                  <tr class="flex-nowrap">
                       <td class="text-center align-middle">${count}</td>
                       <td class="align-middle">${vehicleMake + ' ' + vehicleModel}</td>
                       <td class="align-middle">${vehiclePlateNumber}</td>
@@ -806,19 +1240,126 @@ if (protectedPages.includes(window.location.pathname)) {
                           <i class="fas fa-${icon}"></i> ${vehicleStatus}
                       </td>
                       <td class="text-center align-middle">
-                          <a href="#"><i class="fas fa-edit text-success">&nbsp;</i>&nbsp;</a>
-                          <a href="#"><i class="fas fa-trash-alt text-danger"></i></a>
+                          <a href="#update-${count}" id="updatenow"><i class="fas fa-edit text-success">&nbsp;</i>&nbsp;</a>
                       </td>
                   </tr>
                   `
-        }
+          detailupdate.innerHTML += `
+              <div class="updatevehicle mt-20 w-100" id="update-${count}" style="display:none" >
+                <div class="">
+                  <div>
+                    <h4> ${vehicleMake + ' ' + vehicleModel} &nbsp; - <span id="plateno">${vehiclePlateNumber}</span></h4>
+
+                  </div>
+                  <div class="col-md-6">
+                    <form id="update_${vehicle_id}">
+                      <div class="row g-4">
+                        <div class="form-group">
+                          <label for="status">Status</label>
+                          <select class="form-control" id="status_${vehicle_id}" value="${vehicleStatus}">
+                            <option>AVAILABLE</option>
+                            <option>UNAVAILABLE</option>
+                          </select>
+                        </div>
+                        <div class="form-group">
+                          <label for="description">Description</label>
+                          <textarea class="form-control" id="description_${vehicle_id}"> ${vehicleDescription} </textarea>
+                        </div>
+                        <div class="form-group">
+                          <label for="location">Location</label>
+                          <input type="text" class="form-control" id="location_${vehicle_id}" value="${vehicleLocation}">  
+                        </div>
+                        <div class="form-group">
+                          <label for="BookingAmount">Daily Booking Rate</label>
+                          <input type="number" class="form-control" id="BookingAmount_${vehicle_id}" value="${vehiclerate}">
+                        </div>
+                        <div class="form-group">
+                          <label for="rentperiod">Max Rent period</label>
+                          <input type="number" class="form-control" id="rentperiod_${vehicle_id}" value="${rentperiod}">
+                        </div>
+                        <div class="form-group text-center">
+                          <button type="submit" class="btn btn-primary update-vehicle" >Save Changes</button>
+                          <button type="button" class="btn btn-secondary close-update" href="#update-${count}" id="close-${count}">Close</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>               
+
+          `
+          // query selector by href
+          const updateLinks = document.querySelectorAll(`a[id = 'updatenow']`);
+          updateLinks.forEach(updateLink => {
+            updateLink.addEventListener("click", function () {
+              // hide all update forms
+              const updateSections = document.querySelectorAll('.updatevehicle');
+                updateSections.forEach(section => {
+                section.style.display = "none";
+              });
+
+              // get section id from link
+              const sectionId = updateLink.getAttribute("href");
+              // display only the update form for the clicked vehicle
+              document.querySelector(sectionId).style.display = "block";
+            });
+          });
+
+          const closeBtns = document.querySelectorAll(`button[class= 'btn btn-secondary close-update']`);
+          closeBtns.forEach(closeBtn => {
+            closeBtn.addEventListener("click", function () {
+              const sectionId = closeBtn.getAttribute("href");
+              document.querySelector(sectionId).style.display = "none";
+            });
+          });
+          // Get all "Save Changes" buttons
+          const saveChangesBtns = document.querySelectorAll(`button[class='btn btn-primary update-vehicle']`);
+
+          // Add a click event listener to each "Save Changes" button
+          saveChangesBtns.forEach(saveChangesBtn => {
+            saveChangesBtn.addEventListener("click", function (e) {
+              e.preventDefault(); // prevent the form from submitting
+              const form = saveChangesBtn.closest("form");
+              const sectionId = form.getAttribute("id");
+              const vehicleId = sectionId.split("_")[1];
+              const vehicleStatus = document.getElementById(`status_${vehicleId}`).value;
+              const vehicleDescription = document.getElementById(`description_${vehicleId}`).value;
+              const vehicleLocation = document.getElementById(`location_${vehicleId}`).value;
+
+
+              const data = { vehicleStatus, vehicleDescription, vehicleLocation };
+              const headers = {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+              }
+              const userId = localStorage.getItem('userId');
+
+              // Make the PATCH request to update the vehicle
+              axios.patch(base_URL_Vehicle + `/update/${userId}/${vehicleId}`, data, { headers })
+                .then(response => {
+                  console.log(response);
+                  Toastifymessage("success", 'updated succesfully');
+                  // reload the page in 1 second
+                  setTimeout(() => {
+                    window.location.reload();
+                  }, 1000);
+                  // change url # to lastdisplayed section in local storage
+                  window.location.hash = localStorage.getItem('lastDisplayedSection');    
+                })
+                .catch(error => {
+                  axiosErrorHandling(error);
+                  console.error(error);
+                  // Do something with the error, like displaying an error message
+                });
+            });
+          });
+
+        }        
         
+        // unverified vehicles
         var unverifiedvehicles = response.data.unverifiedVehicles;
-        console.log(unverifiedvehicles);
         for (let i = 0; i < unverifiedvehicles.length; i++) {
           const {vehicleMake,vehicleModel,vehiclePlateNumber, vehicleStatus, vehicle_id} = unverifiedvehicles[i];
           const count = i + 1;
-          console.log(vehicleMake, vehicleModel,vehiclePlateNumber, vehicleStatus, vehicle_id);
           unverifiedVehicles.innerHTML += `
                     <tr>
                         <td class="text-center">${count}</td>
@@ -826,24 +1367,377 @@ if (protectedPages.includes(window.location.pathname)) {
                         <td>${vehiclePlateNumber}</td>
                         <td> Pending verification...</td>
                         <td class="text-center">
-                            <a href="#"><i class="fas fa-trash-alt text-danger"></i></a>
+                            <a href="#"><i class="fas fa-circle text-danger"></i></a>
                         </td>
                     </tr>
                   `
+                  
         }
 
         // booking history
+        const bookingHistory = document.getElementById('booking-history');
+        var bookings = response.data.bookings;
+        for (let i = 0; i < bookings.length; i++) {
+          const {booking_id, bookingStatus, vehicleName, fromLocation, toLocation, startDate, endDate, paymentStatus, thisUser} = bookings[i];
+          const count = i + 1;
+          let iconcolor,page, state;
+          if (bookingStatus === 'Pending' && paymentStatus === 'Pending') {
+            let redirectpage;
+            if (thisUser === 'host') {
+              redirectpage = 'ride-detail.html'
+            } else {
+              redirectpage = 'checkout.html'
+            }
+            state = 'Pending';
+            iconcolor = 'text-danger';
+            page = `href = ${clientside_Url}/accounts/${redirectpage}?t=${booking_id}`
+          } else if (bookingStatus == 'Approved') {
+            state = 'Approved'
+            iconcolor = 'badge text-success';
+            page = `href = ${clientside_Url}/accounts/ride-detail.html?t=${booking_id}`
+          } else if (bookingStatus == 'Cancelled') {
+            state = "Cancelled"
+            iconcolor = 'text-warning';
+          } else if ( bookingStatus === "Pending" && paymentStatus === 'Paid') {
+            state = 'paid'
+            iconcolor = 'badge text-info ';
+            page = `href = ${clientside_Url}/accounts/ride-detail.html?t=${booking_id}`
+          } 
 
-       
+
+          bookingHistory.innerHTML += `
+                    <tr>
+                        <th scope="row">${count}</th>
+                        <td>${vehicleName}</td>
+                        <td class="text-truncate">${fromLocation}</td>
+                        <td>${startDate}</td>
+                        <td><a  ${page} class=" ${iconcolor} fs-lg ps-0">${state}</a></td>
+                        <!-- <td><a href="checkout.html?t=${booking_id}" class="">View</a></td> -->
+                    </tr>
+                  `             
+        }
         
+        // payment history
+        var accountDetails = response.data.accountDetails;
+        if (accountDetails) {
+          const {accountNumber, bankName} = accountDetails;
+          document.getElementById('account-number').value = accountNumber;
+          document.getElementById('bank-name').value = bankName;
+        }
+
       }) 
       .catch((error) => {
         axiosErrorHandling(error);
         console.error(error);
       }
       );
-    // update profile data
 
+    // update profile data
+    const profileUpdateform = document.getElementById('profile-update-form');
+    profileUpdateform.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const data = {
+        phone : document.getElementById('Phone').value,
+        address : document.getElementById('address').value,
+        city : document.getElementById('city').value,
+        state : document.getElementById('state').value,
+        country : document.getElementById('country').value,
+      }
+      const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+      }
+      axios.post(base_URL_Host + `/updateprofile/${userId}`, data, { headers })
+        .then(response => {
+          console.log(response);
+          Toastifymessage("success", 'updated succesfully');
+          // reload the page in 1 second
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        })
+        .catch(error => {
+          axiosErrorHandling(error);
+          console.error(error);
+        });
+    });
+
+    // verify button submit
+    const verifyinfoform = document.getElementById('verifyinfo');
+    verifyinfoform.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const data = new FormData();
+      data.append('employer', $('#employer').val());
+      data.append('branch', $('#branch').val());
+      const files = $('#file_upload').prop('files');   
+      for (let i = 0; i < files.length; i++) {
+        data.append('docs', files[i]);
+      }
+
+      console.log(data.employer)
+
+      const headers = {
+        'Content-Type': 'multipart/form-data',
+        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+      }
+      const userId = localStorage.getItem('userId');
+      axios.post(base_URL_Host + `/verificationdoc/${userId}`, data, { headers })
+        .then(response => {
+          console.log (response.data);
+          Toastifymessage("success", 'Verification document uploaded successfully');
+          // reload the page in 1 second
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        })
+        .catch(error => {
+          axiosErrorHandling(error);
+          console.error(error);
+        });
+    });
+
+    // add/update payment details
+    const payform = document.getElementById('payform');
+    payform.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = {
+        accountNumber: document.getElementById('account-number').value,
+        bankName: document.getElementById('bank-name').value,
+      }
+      const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+      }
+      axios.post(base_URL_Payment + `/account/${userId}`, data, { headers })
+        .then(response => {
+          // check res status
+          if (response.status === 201) {
+            Toastifymessage("success", 'Account details added succesfully');
+          } else if (response.status === 200) {
+            Toastifymessage("success", 'Account details updated succesfully');
+          }
+          // reload the page in 1 second
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        })
+        .catch(error => {
+          axiosErrorHandling(error);
+          console.error(error);
+        });
+    });
+
+    // ========== PASSWORD RESET ==========
+    const resetPasswordForm = document.getElementById('reset-password-form');
+    resetPasswordForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const data = {
+        password: document.getElementById('current-password').value,
+        password1: document.getElementById('confirm-password').value,
+        password2: document.getElementById('new-password').value,
+      }
+      const headers = {
+        'Content-Type': 'application/json', 
+        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+      }
+      axios.post(base_URL_Auth + `/passwordupdate/${userId}`, data, { headers })
+        .then(response => {
+          console.log(response);
+          Toastifymessage("success", 'Password changed succesfully');
+          // reload the page in 1 second
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        })
+        .catch(error => {
+          axiosErrorHandling(error);
+          console.error(error);
+        });
+      });
+  }
+
+  // =================== BOOKED RIDE DETAILS  ===================
+
+  if (window.location.href.indexOf("ride-detail") > -1) {
+    // check for query strings
+    const urlParams = new URLSearchParams(window.location.search);
+    const tx_ref = urlParams.get('tx_ref');
+    const transaction_id = urlParams.get('transaction_id');
+    const status = urlParams.get('status');
+    const bookingId = urlParams.get('t');
+
+
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+    }
+    //  on page load event
+    window.addEventListener('load', () => { 
+      console.log('page loaded');
+    // check if the query strings are present
+    if (tx_ref && transaction_id && status) {
+      console.log('query strings present');
+    // make a request to the server to update the booking status
+    const data = { tx_ref, transaction_id, status };
+    axios.post(base_URL_Payment + `/verifyflutterwavepayment/${userId}`, data, { headers })
+      .then(response => {
+        window.location.href = `${clientside_Url}/accounts/profile.html#booking`;
+
+        Toastifymessage("success", 'Payment verified succesfully'); 
+      })
+      .catch(error => {
+        axiosErrorHandling(error);
+        console.error(error);
+      });
+
+    } else if (bookingId) {
+      // make axios request and populate 
+      axios.get(base_URL_Host + `/ridedetails/info/${bookingId}/${userId}`, { headers })
+        .then(response => {
+          console.log(response.data.bookingdata)
+          const bookingData = response.data.bookingdata;
+          const bookings = bookingData.booking;
+          const vehicle = bookingData.vehicle;
+          const user = bookingData.user;
+          const userData = bookingData.user.UserDatum;
+          const thisuser = bookingData.thisuser;
+          const identify = document.getElementById('identify');
+          if (thisuser === 'host') {
+            identify.innerHTML = `<i class="fa fa-solid fa-user"></i> &nbsp; User: <span id="host-name"></span>`
+          } else {
+            identify.innerHTML = `<i class="fa fa-solid fa-user"></i> &nbsp; Host: <span id="host-name"></span>`
+          }
+          // check res status
+          if (response.status === 200) {
+            const { bookingStatus, startDate, endDate, fromLocation,toLocation, paymentReference, paymentStatus } = bookings;
+            const { fullName, phone } = user;
+            const { vehicleName,  vehiclePlateNumber, vehicleImage } = vehicle;
+            const { userImage } = userData;
+            let img;
+            userImage === null || userImage === undefined ? img = '../assets/img/user.png' : img = userImage;
+
+            $('#booking-status').text(bookingStatus); 
+            $('#start-date').text(startDate);
+            $('#end-date').text(endDate);
+            $('#pickup-location').text(fromLocation);
+            $('#dropoff-location').text(toLocation);
+            $('#payment-reference').text(paymentReference);
+            $('#payment-status').text(paymentStatus);
+            $('#vehicle-name').text(vehicleName);
+            $('#host-name').text(fullName);
+            $('#phone-contact').text(phone);
+            $('#plate-number').text(vehiclePlateNumber);
+            $('#vehicleImg').attr('src', vehicleImage);
+            $('#iuser-image').attr('src', img);
+            // set the user image src attribute
+            const userImageElement = document.getElementById('iuser-image');
+            userImageElement.innerHTML = `<img src="${img}" alt="user image" class="img-fluid rounded-circle mb-3" style="height:200px";>`;
+            // set the dive with id action-btn display and userImageElement to none if the booking status is approved use tenary operator
+            const actionBtn = document.getElementById('action-btns');
+            bookingStatus === 'Approved' ? actionBtn.style.visibility = 'hidden' : actionBtn.style.visibility = 'visible';
+
+
+          } else {Toastifymessage("error", 'Payment verification failed');}
+
+          // approve booking button
+          document.getElementById("approve-trip-button").addEventListener("click", function () {
+            const bookingId = new URL(window.location.href).searchParams.get("t");
+            console.log(bookingId)
+            // $('#ratingModal').modal('show');
+            // console.log($('#ratingInput').val())
+
+            axios.post(`${base_URL_booking}/approvebooking/${bookingId}/${userId}`, { headers })
+              .then(response => {
+                console.log(response.data);
+                console.log(response.status)
+                // check res status
+                if (response.status === 200) {
+                  Toastifymessage("success", 'Booking approved succesfully, please leave a review')
+                  // open review modal if thisuser is user after 1 second
+                  if (thisuser === 'user') {
+                    setTimeout(() => {
+                      $('#ratingModal').modal('show');
+                      console.log($('#ratingInput').val())  
+                    }, 3000);
+                  }
+
+                } else {
+                  Toastifymessage("error", 'Booking approval failed');
+                }
+              })
+              .catch(error => {
+                axiosErrorHandling(error);
+                console.error(error);
+              });
+          });
+          // cancel booking button
+          document.getElementById("end-trip-button").addEventListener("click", function () {
+            const bookingId = new URL(window.location.href).searchParams.get("t");
+            const headers = {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+            }
+            axios.post(`${base_URL_booking}/cancel/booking/${bookingId}/${userId}`, { headers })
+              .then(response => {
+                console.log(response.data);
+                console.log('yesss')
+                // check res status
+                if (response.status === 200) {
+                  Toastifymessage("success", 'Booking cancelled succesfully');
+                  // redirect to profile page in 1 second
+                  setTimeout(() => {
+                    window.location.href = `${clientside_Url}/accounts/profile.html#bookings`;                   
+                  }, 1000);
+                } else {
+                  Toastifymessage("error", 'Booking approval failed');
+                }
+              })
+              .catch(error => {
+                axiosErrorHandling(error);
+                console.error(error);
+              });
+          });  
+          // rate ride 
+          const ratingform = document.getElementById('ratingModalform');
+          ratingform.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const data = {
+              rating: $('#ratingInput').val(),
+              comment: $('#commentInput').val(),
+              vehicleId: bookings.vehicle_id
+            } 
+            console.log(data)
+            axios.post(`${base_URL_booking}/rateride/${bookings.id}`, data, { headers })
+              .then(response => {
+              console.log(response.data);
+              // redirect to profile page in 1 second
+              setTimeout(() => {
+                window.location.href = `${clientside_Url}/accounts/profile.html#bookings`;
+              }, 1000);
+            })
+            .catch(error => {
+              axiosErrorHandling(error);
+              console.error(error);
+            });
+              
+          })       
+        })
+        .catch(error => {
+          axiosErrorHandling(error);
+          console.error(error);
+        }
+        );
+
+
+
+
+
+          
+
+
+    }
+  });
   }
 
 

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <!--required meta tags-->
     <meta charset="utf-8" />
@@ -10,13 +11,15 @@
     <meta name="twitter:creator" content="@themetags" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="AutoHive - Car Rental HTML Template" />
-    <meta name="twitter:description" content="Car Rental HTML Template, auto parts technology, car dealership & business Bootstrap 5 Html template. It is best and famous car rental company website template." />
+    <meta name="twitter:description"
+        content="Car Rental HTML Template, auto parts technology, car dealership & business Bootstrap 5 Html template. It is best and famous car rental company website template." />
     <meta name="twitter:image" content="#" />
 
     <!--facebook og-->
     <meta property="og:url" content="#" />
     <meta name="twitter:title" content="AutoHive - Car Rental HTML Template" />
-    <meta property="og:description" content="Car Rental HTML Template, auto parts technology, car dealership & business Bootstrap 5 Html template. It is best and famous car rental company website template." />
+    <meta property="og:description"
+        content="Car Rental HTML Template, auto parts technology, car dealership & business Bootstrap 5 Html template. It is best and famous car rental company website template." />
     <meta property="og:image" content="#" />
     <meta property="og:image:secure_url" content="#" />
     <meta property="og:image:type" content="image/png" />
@@ -24,7 +27,8 @@
     <meta property="og:image:height" content="600" />
 
     <!--meta-->
-    <meta name="description" content="Car Rental HTML Template, auto parts technology, car dealership & business Bootstrap 5 Html template. It is best and famous car rental company website template." />
+    <meta name="description"
+        content="Car Rental HTML Template, auto parts technology, car dealership & business Bootstrap 5 Html template. It is best and famous car rental company website template." />
     <meta name="author" content="ThemeTags" />
 
     <!--favicon icon-->
@@ -41,11 +45,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.11.0/toastify.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.11.0/toastify.min.js"></script>
 
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
+
     <!-- google maps -->
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-    <script type="text/javascript"
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJfzOqR9u2eyXv6OaiuExD3jzoBGGIVKY&libraries=geometry,places&v=weekly"></script>
-    
+    <!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script> -->
+    <!-- <script type="text/javascript" -->
+    <!-- src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJfzOqR9u2eyXv6OaiuExD3jzoBGGIVKY&libraries=geometry,places&v=weekly"></script> -->
+
     <!--axios cdn-->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <!--custom css-->
@@ -176,176 +183,76 @@
         </div>
         <!--ofcanvus menu end-->
 
-        <!--hero banner slider start-->          
-           
-        <div class="slider-container">
-            <div class="slider-content">
-            </div>
-            <div class="slider-controls">
-                <div class="slider-nav">
-                    <div id="prev-btn">&#10094;</div>
-                    <div id="next-btn">&#10095;</div>
+
+        <div class="section" id="vehicleDetailsSection">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <h2>Rental Details</h2>
+                    </div>
                 </div>
-                <div class="slider-pagination">
+                <div class="row justify-content-center mt-20" id="image-row">
+                    <div class="col-6" style="text-align: center;"> 
+                        <img src="" id="vehicleImg" class="rounded mb-3" style="max-width: 100%; height: 200px; ">
+                    </div>
+                    <div class="col-6" id="iuser-image" style=" text-align: center;">
+                    </div>
+                </div>
+                <div class="row mt-20">
+                    <div class="col-12 text-center">
+                        <h3>Booking Information</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-12 col-sm-12">
+                                        <p class="card-text fw-bold" id="identify"></p>
+                                        <p class="card-text fw-bold"> <i class=" fa fa-solid fa-phone"></i> &nbsp; Contact : <span id="phone-contact"></span></p>
+                                        <p class="card-text fw-bold"> <i class=" fa fa-solid fa-car"></i> &nbsp; Vehicle Plate Number: <span id="plate-number"></span></p>
+                                    </div>                                    
+                                    <div class="col-lg-6 col-md-12 col-sm-12">
+                                        <p class="card-text fw-bold"> <i class=" fa fa-solid fa-calendar"></i> &nbsp; End Date & Time: <span id="end-date"></span></p>
+                                        <p class="card-text fw-bold"><i class=" fa fa-solid fa-calendar"></i> &nbsp; Start Date & Time: <span id="start-date"></span></p>
+                                        <p class="card-text fw-bold"><i class=" fa fa-solid fa-car"></i> &nbsp;Vehicle Name: <span id="vehicle-name"></span></p>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-5">
+                                    <div class="col-lg-6 col-md-12 col-sm-12">
+                                        <p class="card-text fw-bold">Payment Reference: <span id="payment-reference"></span></p>
+                                        <p class="card-text fw-bold">Booking Status: <span id="booking-status"></span></p>                                        
+                                    </div>
+                                    <div class="col-lg-6 col-md-12 col-sm-12">
+                                        <p class="card-text fw-bold">Pickup Location: <span id="pickup-location"></span></p>
+                                        <p class="card-text fw-bold">Dropoff Location: <span id="dropoff-location"></span></p>
+                                    </div>                                
+                                </div>
+                                <div class="row justify-content-center mt-30" id="action-btns">
+                                    <div class="col-4" style=" text-align: center;">
+                                        <button class="btn btn-success btn-sm"  id="approve-trip-button">Approve Trip</button>
+                                    </div>
+                                    <div class="col-4" style=" text-align: center;">
+                                        <button class="btn btn-danger btn-sm"  id="end-trip-button">Cancel Trip</button>
+                                    </div>
+                                </div>                            
+                                    </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-30">
+                    <div class="col-12 text-center">
+                        <a type="button" href="/accounts/profile.html#booking" class="btn btn-secondary" id="close-section-button">Close</a>
+                    </div>
                 </div>
             </div>
         </div>
 
-
-        <!--hero banner end-->
-
-        <!--car info-->
-        <section class="car-info pb-30 pt-120">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="car-info-box bg-white rounded d-flex flex-wrap align-items-center justify-content-between" id="car-info-box">
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!--car info end-->
-
-        <!--rental description-->
-        <section class="rental-description pb-120">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="rental-feature-box bg-white rounded overflow-hidden" id="rental-feature-box">
-                        </div>
-                        
-                    </div>
-
-                </div>
-            </div>
-        </section>
-        <!--rental description end-->
-
-        <!--steps area start-->
-        <section class="steps-area pb-120" id='rental-form'>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="steps-left">
-                            <div class="at-section-title">
-                                <span class="at-subtitle position-relative text-primary lead">Car Rental at it's best</span>
-                                <h2 class="h1 mb-0 mt-2">How Taximania <br> Car Rental Works 3 Steps.</h2>
-                            </div>
-                            <div class="steps-list mt-5">
-                                <div
-                                    class="steps-box about-icon-box bg-white rounded d-flex align-items-center position-relative">
-                                    <div class="ab-icon-box-top d-flex align-items-center">
-                                        <span class="icon-wrapper d-flex align-items-center justify-content-center rounded"><i
-                                                class="flaticon-pin"></i></span>
-                                    </div>
-                                    <div class="icon-box-content ms-4">
-                                        <h5 class="mb-2">Choose Location</h5>
-                                        <p class="mb-0">Quickly integrate holistic sources via wireless internal or
-                                            organic sources. Efficiently deploy.</p>
-                                    </div>
-                                    <span class="icon-bg position-absolute"><i class="flaticon-pin"></i></span>
-                                </div>
-                                <div
-                                    class="steps-box about-icon-box bg-white rounded d-flex align-items-center mt-4 position-relative">
-                                    <div class="ab-icon-box-top d-flex align-items-center">
-                                        <span class="icon-wrapper d-flex align-items-center justify-content-center rounded"><i
-                                                class="flaticon-calendar"></i></span>
-                                    </div>
-                                    <div class="icon-box-content ms-4">
-                                        <h5 class="mb-2">Pick Up Date</h5>
-                                        <p class="mb-0">Dynamically exploit professional outsourcing before visionary
-                                            band width. build compelling platforms.</p>
-                                    </div>
-                                    <span class="icon-bg position-absolute"><i class="flaticon-calendar"></i></span>
-                                </div>
-                                <div
-                                    class="steps-box about-icon-box bg-white rounded d-flex align-items-center mt-4 position-relative">
-                                    <div class="ab-icon-box-top d-flex align-items-center">
-                                        <span class="icon-wrapper d-flex align-items-center justify-content-center rounded"><i
-                                                class="flaticon-drive"></i></span>
-                                    </div>
-                                    <div class="icon-box-content ms-4">
-                                        <h5 class="mb-2">Book Your Car</h5>
-                                        <p class="mb-0">Quickly integrate holistic sources via wireless internal or
-                                            organic sources. Efficiently deploy.</p>
-                                    </div>
-                                    <span class="icon-bg position-absolute"><i class="flaticon-drive"></i></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 align-self-end">
-                        <div class="pickup-form-wrapper mt-50 mt-lg-0 position-relative z-1">
-                            <!-- <ul class="nav nav-tabs border-0">
-                                        <li><a href="#new_car" class="active" data-bs-toggle="tab">Rent Car</a></li>
-                                    </ul> -->
-                            <div class="tab-content">
-                                <div class="tab-pane fade show active" id="new_car">
-
-                                    <!--booking form start -->
-
-                                    <form class="pickup-form bg-white rounded-1" id="bookingform">
-                                        <h5 class="mb-3">Pick UP</h5>
-                                        <input id="pac-input" class="loc1 form-select" type="text" name="hostloc" placeholder="Enter pickup address" required>
-                                        <div id="map-canvas" style="border:0; width:100%; height: 400px; display: none;" allowfullscreen="" loading="lazy"></div>
-                                        <div class="checkbox-field mt-2">
-                                            <input type="checkbox" id="pickup-checkbox">
-                                            <label for="pickup-checkbox" class="ms-2">Return to the same Location</label>
-                                        </div>
-                                        <div class="date-field mt-20 position-relative">
-                                            <input type="text" class="border w-100 rounded theme-date-input"
-                                                placeholder="DD/MM/YYYY 11:36 AM" id="startDate" required>
-                                        </div>
-                                        <div class="return-field mt-30">
-                                            <h5 class="mb-3">Return</h5>
-                                        <input id="pac-input" class="loc2 form-select" type="pacinput2" placeholder="Enter dropoff address" required> 
-                                        <div id="map-canvas" style="border:0; width:100%; height: 400px; display: none;" allowfullscreen="" loading="lazy"></div>
-
-                                            <div class="date-field mt-20 position-relative">
-                                                <input type="text" class="border w-100 rounded theme-date-input"
-                                                    placeholder="DD/MM/YYYY 11:36 AM" id="endDate" required>
-                                            </div>
-                                        </div>
-                                        <button type="submit" class="btn btn-secondary mt-5">Book ride<span class="ms-2"><i
-                                                    class="fa-solid fa-arrow-right"></i></span></button>
-                                    </form>
-                                </div>
-                            </div>
-                            <img src="../assets/img/shapes/primary-tire-gradient.png" alt="tire shape"
-                                class="position-absolute z--1 tire-shape">
-                            <img src="../assets/img/shapes/dot-shape.png" alt="dot shape"
-                                class="position-absolute dot-shape z--1">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!--steps area end-->
-
-        <!--inventory slider start-->
-        <section class="inventory-slider">
-            <div class="container overflow-hidden">
-                <div class="row">
-                    <div class="col-lg-8">
-                        <div class="section-title">
-                            <h2 class="h1">You May be Interested in</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="inventroy-slider swiper mt-40 pb-120 overflow-visible">
-                    <div class="swiper-wrapper" id="rentcar_slider">
-
-                    </div>
-                    <div class="slider-btn-prev swiper-btn"><i class="fa-solid fa-arrow-left"></i></div>
-                    <div class="slider-btn-next swiper-btn"><i class="fa-solid fa-arrow-right"></i></div>
-                </div>
-            </div>
-        </section>
-        <!--inventory slider end-->
-
     </div>
+
+    
     <!-- main content wrapper ends -->
 
 
@@ -379,16 +286,20 @@
                                 <div class="product_thumb_slider swiper mt-3">
                                     <div class="swiper-wrapper">
                                         <div class="swiper-slide">
-                                            <img src="../assets/img/home4/pd-thumb-1.png" alt="thumbnail" class="img-fluid">
+                                            <img src="../assets/img/home4/pd-thumb-1.png" alt="thumbnail"
+                                                class="img-fluid">
                                         </div>
                                         <div class="swiper-slide">
-                                            <img src="../assets/img/home4/pd-thumb-1.png" alt="thumbnail" class="img-fluid">
+                                            <img src="../assets/img/home4/pd-thumb-1.png" alt="thumbnail"
+                                                class="img-fluid">
                                         </div>
                                         <div class="swiper-slide">
-                                            <img src="../assets/img/home4/pd-thumb-1.png" alt="thumbnail" class="img-fluid">
+                                            <img src="../assets/img/home4/pd-thumb-1.png" alt="thumbnail"
+                                                class="img-fluid">
                                         </div>
                                         <div class="swiper-slide">
-                                            <img src="../assets/img/home4/pd-thumb-1.png" alt="thumbnail" class="img-fluid">
+                                            <img src="../assets/img/home4/pd-thumb-1.png" alt="thumbnail"
+                                                class="img-fluid">
                                         </div>
                                     </div>
                                 </div>
@@ -402,10 +313,12 @@
                                     <li><i class="fa-solid fa-star"></i></li>
                                     <li><i class="fa-solid fa-star"></i></li>
                                     <li><i class="fa-solid fa-star"></i></li>
-                                    <li class="review-total ms-2 text-primary fw-semibold"><a href="#">( 95 Reviews )</a></li>
+                                    <li class="review-total ms-2 text-primary fw-semibold"><a href="#">( 95 Reviews
+                                            )</a></li>
                                 </ul>
                                 <h5 class="product_title mt-3">Aluminium Wheel AR-19 <br> Tire Parts</h5>
-                                <p>Monotonectally simplify frictionless communities via clicks-and-mortar Interactively disseminate relationships. </p>
+                                <p>Monotonectally simplify frictionless communities via clicks-and-mortar Interactively
+                                    disseminate relationships. </p>
                                 <ul class="key_features">
                                     <li>Speed: 750 RPM</li>
                                     <li>Power Source: Cordless-Electric</li>
@@ -444,7 +357,8 @@
                                         <input type="text" value="01">
                                         <button type="button" class="increment btn-sm">+</button>
                                     </form>
-                                    <a href="#" class="btn btn-secondary btn-sm"><span class="me-1"><i class="fa-solid fa-cart-plus"></i></span>Add To Cart</a>
+                                    <a href="#" class="btn btn-secondary btn-sm"><span class="me-1"><i
+                                                class="fa-solid fa-cart-plus"></i></span>Add To Cart</a>
                                 </div>
                             </div>
                         </div>
@@ -453,6 +367,46 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="ratingModal" tabindex="-1" role="dialog" aria-labelledby="ratingModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ratingModalLabel">Rate and Review Experience</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="ratingsModalform">
+                        <div class="form-group">
+                            <label for="ratingInput">Ratings</label>
+                            <div class="ratingstar mt-1 justify-content-center">
+                                <i class="fas fa-star fa-2x" data-index="0"></i>
+                                <i class="fas fa-star fa-2x" data-index="1"></i>
+                                <i class="fas fa-star fa-2x" data-index="2"></i>
+                                <i class="fas fa-star fa-2x" data-index="3"></i>
+                                <i class="fas fa-star fa-2x" data-index="4"></i>
+                            </div>
+                            <input type="hidden" id="ratingInput" name="rating">
+                        </div>
+                        <div class="form-group mt-5">
+                            <label for="reviewInput">Review</label>
+                            <textarea class="form-control" id="reviewInput" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
     <!--scrolltop button-->
     <button class="theme-scrolltop-btn"><i class="fa-regular fa-hand-pointer"></i></button>
     <!--scrolltop button end-->
@@ -479,9 +433,9 @@
     <script src="../assets/js/vendors/custom-scrollbar.js"></script>
     <script src="../assets/js/vendors/price-range.js"></script>
     <script src="../assets/js/app.js"></script>
-    <script src='../assets/js/api.js'></script> 
+    <script src='../assets/js/api.js'></script>
     <script src='../assets/js/custom.js'></script>
-   <!--endbuild-->
+    <!--endbuild-->
 </body>
 
 </html>
