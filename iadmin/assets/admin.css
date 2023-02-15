@@ -647,7 +647,10 @@ cursor: pointer;
 }
 
 .docimg img {
-margin-top: 15px;
+margin-top: 25px;
+background: #4CAF50;
+width: 100%;
+max-width: 100%;
 }
 
 .modal-header {

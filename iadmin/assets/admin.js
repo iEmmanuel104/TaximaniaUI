@@ -1,5 +1,6 @@
 let base_URL = "http://127.0.0.1:8081/api/v1";
 let base_URL_Auth = `${base_URL}/admin_auth`;
+let base_URL_Action = `${base_URL}/admin_actions`;
 let base_URL_Vehicle = `${base_URL}/vehicle`;
 let base_URL_Host = `${base_URL}/host`;
 let clientside_Url = "http://127.0.0.1:5500";
@@ -207,16 +208,15 @@ if (AloginForm) {
             email: $("#loginEmail").val(),
             password: $("#loginPassword").val(),
         };
-        // Set the request headers
-        const headers = {
-            'Content-Type': 'application/json'
-        };
 
         // Make the Axios request
         axios.post(base_URL_Auth + "/admin/login", data)
             .then((response) => {
                 Toastifymessage('success', 'Admin login successful');
                 console.log(response.data);
+                // set token to local storage
+                localStorage.setItem('Acstkn', response.data.ACCESS_TOKEN);
+                localStorage.setItem('Rfshtkn', response.data.REFRESH_TOKEN);
 
                 // clear the form
                 AloginForm.reset();
@@ -240,20 +240,175 @@ if (AloginForm) {
 
 // ===================== ADMIN DASHBOARD AREA =====================
 if (window.location.href.indexOf('dashboard.html') > -1) {
+
     // ===================== ADMIN ACCORDION STYLES =====================
     var coll = document.getElementsByClassName("collapse");
     var i;
-
     for (i = 0; i < coll.length; i++) {
         coll[i].addEventListener("click", function () {
             this.classList.toggle("show");
             var content = this.nextElementSibling;
-            if (content.style.maxHeight) {
-                content.style.maxHeight = null;
-            } else {
-                content.style.maxHeight = content.scrollHeight + "px";
+            if (content && content.style) {
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                }
             }
         });
     }
+
+    const adminuseraction = (action, userId) => {
+        let state;
+        if (action === 'verify') {
+            state = 'verified';
+        } else if (action === 'reject') {
+            state = 'rejected';
+        }
+
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('Acstkn')}`                         
+        }
+        axios.post(base_URL_Action + `/admin/accountverify/${userId}?action=${action}`, { action, userId }, { headers })
+            .then((response) => {
+                Toastifymessage('success', 'User account ' + state);
+                console.log(response.data);
+                // page reload
+                setTimeout(() => {
+                    // reload the page
+                    window.location.reload();
+                }, 1000);
+            })
+            .catch((error) => {
+                // return error message
+                axiosErrorHandling(error);
+                console.error(error);
+            });
+    }
+
+
+    // ===================== API CALLS =====================
+    const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('Acstkn')}`
+    }
+    axios.get(base_URL_Action + "/admin/dashboard", { headers })
+        .then((response) => {
+            const userData = response.data.Userdata;
+            const userVerify = document.getElementById('userverify');
+            const vehicleverify = document.getElementById('vehicleverify');
+
+            // ===================== USER VERIFICATION ACCORDION =====================
+
+            for (let i = 0; i < userData.length; i++) {
+                const { name, licenseDocument, user_id } = userData[i];
+                userVerify.innerHTML += `
+                    <tr>
+                        <td>${name}</td>
+                        <td>
+                            <button class="btn btn-link" type="button" data-toggle="modal"
+                                data-target="#documentsModal" data-images='${JSON.stringify(licenseDocument)}'>
+                                View Documents
+                            </button>
+                        </td>
+                        <td class="d-flex justify-content-center" style="gap: 40px">
+                            <button class="btn btn-primary verify-btn btn-sm" data-user-id="${user_id}">Verify</button>
+                            <button class="btn btn-danger reject-btn btn-sm" data-user-id="${user_id}">Reject</button>
+                        </td>
+                    </tr>                
+                `
+            }
+            $(document).on('click', '[data-toggle="modal"]', function () {
+                let images = $(this).data('images');
+                const modalImages = document.getElementById('modal-images');
+                // set h5 text value for documentModalLabel
+                modalImages.innerHTML = '';
+                if (Array.isArray(images)) {
+                    for (let i = 0; i < images.length; i++) {
+                        modalImages.innerHTML += `<img src="${images[i]}" alt="Verification Document" class="img-fluid">`;
+                    }
+                }
+            });
+
+            const verifyBtns = document.querySelectorAll('.verify-btn');
+            verifyBtns.forEach(verifyBtn => {
+                verifyBtn.addEventListener('click', function () {
+                    const action = 'verify';
+                    const user_id = this.getAttribute('data-user-id');
+                    console.log('Action:', action, 'User ID:', user_id);
+                    adminuseraction(action, user_id);
+                });
+            });
+
+            const rejectBtns = document.querySelectorAll('.reject-btn');
+            rejectBtns.forEach(rejectBtn => {
+                rejectBtn.addEventListener('click', function () {
+                    const action = 'reject';
+                    const user_id = this.getAttribute('data-user-id');
+                    console.log('Action:', action, 'User ID:', user_id);
+                    adminuseraction(action, user_id);
+                });
+            });
+            
+            
+            // ===================== VEHICLE VERIFICATION ACCORDION =====================
+
+            const vehicleData = response.data.Vehicle;
+            console.log(vehicleData);
+            for (let i = 0; i < vehicleData.length; i++) {
+                const { vehicle_id, name, vehiclePlateNumber, vehicleIdNumber, vehicleImages, vehicleMake, vehicleModel } = vehicleData[i];
+                vehicleverify.innerHTML += `
+                    <tr>
+                        <td>${name}</td>
+                        <td>${vehiclePlateNumber}</td>
+                        <td>${vehicleIdNumber}</td>
+                        <td>${vehicleMake} ${vehicleModel}
+                        </td>
+                        <td>
+                            <button class="btn btn-link" type="button" data-toggle="modal"
+                                data-target="#documentsModal" data-images='${JSON.stringify(vehicleImages)}'>
+                                View Images
+                            </button>
+                        </td>
+                        <td class="d-flex justify-content-center" style="gap: 40px">
+                            <button class="btn btn-success vehicle-verify-btn btn-sm" data-vehicle-id="${vehicle_id}">Verify</button>
+                        </td>
+                    </tr>                
+                `
+            }
+            const verifyVehicleBtns = document.querySelectorAll('.vehicle-verify-btn');
+            verifyVehicleBtns.forEach(verifyVehicleBtn => {
+                verifyVehicleBtn.addEventListener('click', function () {
+                    const vehicle_id = this.getAttribute('data-vehicle-id');
+                    console.log('Vehicle ID:', vehicle_id);
+                    axios.post(base_URL_Action + `/admin/vehicleverify/${vehicle_id}`, { headers })
+                        .then((response) => {
+                            Toastifymessage('success', 'Vehicle verified');
+                            console.log(response.data);
+                            // page reload
+                            setTimeout(() => {
+                                // reload the page
+                                window.location.reload();
+                            }, 500);
+                        })
+                        .catch((error) => {
+                            // return error message
+                            axiosErrorHandling(error);
+                            console.error(error);
+                        });
+
+                });
+            });
+
+        })
+        .catch((error) => {
+            // return error message
+            axiosErrorHandling(error);
+            console.error(error);
+
+        });
+
+
 }
 

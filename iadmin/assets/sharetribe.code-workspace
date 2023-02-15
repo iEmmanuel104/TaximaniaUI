@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"name": "sharetribe",
+			"path": "../../../sharetribe"
+		},
+		{
+			"path": "../.."
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "taximaniafrontend",
+		"liveServer.settings.port": 5500
+	}
+}
