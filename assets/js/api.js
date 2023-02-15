@@ -58,7 +58,7 @@ const isAuthenticated = () => {
     if (!refreshToken && !accessToken) {
       Toastifymessage('info', 'Ooop... You are not logged in, please login to continue');
       setTimeout(() => {
-        window.location.href = clientside_Url + "/login.html";
+        window.location.href = clientside_Url + "/login";
       }, 1000);
       return false;
     } else {
@@ -115,7 +115,7 @@ const restrictpages = (usertype) => {
         Toastifymessage('info', 'Session expired, please login again');
         clearLocalStorage();
         setTimeout(() => {
-          window.location.href = clientside_Url + "/login.html";
+          window.location.href = clientside_Url + "/login";
         }, 1000);
       }
       if (error.response.data.msg) {
@@ -142,7 +142,7 @@ const restrictpages = (usertype) => {
       amount: paydetails.amount,
       currency: "NGN",
       payment_options: "card, banktransfer, ussd",
-      redirect_url: `${clientside_Url}/accounts/ride-detail.html`,
+      redirect_url: `${clientside_Url}/accounts/ride-detail`,
       meta: {
         vehicle_id: paydetails.vehicle_id,
         HostUser: paydetails.HostUser,
@@ -216,7 +216,7 @@ if (form) {
         localStorage.setItem('email', response.data.user.email);
         // redirect to verify page after 8 seconds
         setTimeout(() => {
-          window.location.href = "/verify.html";
+          window.location.href = "/verify";
         }, 7000);
         // clear the form
         form.reset();
@@ -259,7 +259,7 @@ if (verifyform) {
         console.log(response.data);
         // redirect to login page after 8 seconds
         setTimeout(() => {
-          window.location.href = "/login.html";
+          window.location.href = "/login";
         }, 2000);
         // clear the form
         verifyform.reset();
@@ -321,7 +321,7 @@ if (loginform) {
         localStorage.setItem('userId', response.data.user.user_id);
 
         setTimeout(() => {
-          window.location.href = "/accounts/dashboard.html";
+          window.location.href = `${window.location.origin}/accounts/dashboard`
         }, 2000);
 
         loginform.reset();
@@ -338,12 +338,12 @@ if (loginform) {
 // =================== DASHBOAR AREA START ======================
 
 const protectedPages = [
-  '/accounts/dashboard.html',
-  '/accounts/car-listing.html',
-  '/accounts/car-rental.html',
-  '/accounts/checkout.html',
-  '/accounts/profile.html',
-  '/accounts/ride-detail.html',
+  '/accounts/dashboard',
+  '/accounts/car-listing',
+  '/accounts/car-rental',
+  '/accounts/checkout',
+  '/accounts/profile',
+  '/accounts/ride-detail',
 ];
 
 // ============ DASHBOARD PAGES ==================
@@ -391,7 +391,7 @@ if (protectedPages.includes(window.location.pathname)) {
             // clear local storage
             clearLocalStorage();
             setTimeout(() => {
-              window.location.href = clientside_Url + "/index.html";
+              window.location.href = clientside_Url + "/index";
             }, 2000);
           })
           .catch((error) => {
@@ -452,7 +452,7 @@ if (protectedPages.includes(window.location.pathname)) {
                       <div class="card-content bg-white position-relative">
                           <span class="star-rating rounded-pill position-absolute ${iconcolor} "><span class="me-1">
                           <i class="fa-solid fa-star ${iconcolor}"></i></span>${carrating}</span>
-                          <a href="car-rental.html?q=${vehicleId}" id="car-link">
+                          <a href="car-rental?q=${vehicleId}" id="car-link">
                               <h5>${name}</h5>
                           </a>
                           <div class="pricing-info d-flex align-items-center">
@@ -472,8 +472,8 @@ if (protectedPages.includes(window.location.pathname)) {
                               <li class="d-none"><span class="me-2 d-none"><i class="flaticon-location"></i></span>Location: ${location}</li>
                           </ul>
                           <div class="card-btns mt-4">
-                              <a href="car-rental.html?q=${vehicleId}#rental-form" class="btn btn-secondary btn-sm">Booking Now</a>
-                              <a href="car-rental.html?q=${vehicleId}" class="btn btn-sm ms-2 border">View Details</a>
+                              <a href="car-rental?q=${vehicleId}#rental-form" class="btn btn-secondary btn-sm">Booking Now</a>
+                              <a href="car-rental?q=${vehicleId}" class="btn btn-sm ms-2 border">View Details</a>
                           </div>
                       </div>
                   </div>
@@ -542,7 +542,7 @@ if (protectedPages.includes(window.location.pathname)) {
         //               <div class="card-content bg-white position-relative">
         //                   <span class="star-rating rounded-pill position-absolute ${iconcolor} "><span class="me-1">
         //                   <i class="fa-solid fa-star ${iconcolor}"></i></span>${carrating}</span>
-        //                   <a href="car-rental.html?q=${vehicleId}" id="car-link">
+        //                   <a href="car-rental?q=${vehicleId}" id="car-link">
         //                       <h5>${name}</h5>
         //                   </a>
         //                   <div class="pricing-info d-flex align-items-center">
@@ -562,8 +562,8 @@ if (protectedPages.includes(window.location.pathname)) {
         //                       <li class="d-none"><span class="me-2 d-none"><i class="flaticon-location"></i></span>Location: ${location}</li>
         //                   </ul>
         //                   <div class="card-btns mt-4">
-        //                       <a href="car-rental.html?q=${vehicleId}#rental-form" class="btn btn-secondary btn-sm">Booking Now</a>
-        //                       <a href="car-rental.html?q=${vehicleId}" class="btn btn-sm ms-2 border">View Details</a>
+        //                       <a href="car-rental?q=${vehicleId}#rental-form" class="btn btn-secondary btn-sm">Booking Now</a>
+        //                       <a href="car-rental?q=${vehicleId}" class="btn btn-sm ms-2 border">View Details</a>
         //                   </div>
         //               </div>
         //           </div>
@@ -830,13 +830,13 @@ if (protectedPages.includes(window.location.pathname)) {
                           <a href="#" class=" wish-btn position-absolute"><i class="fa-solid fa-star ${iconcolor}"></i></span>${carrating}</span></a>
                           <span class="date position-absolute">${vehicleYear}</span>
                           <div class="feature-thumb position-relative overflow-hidden feature-img">
-                              <a href="car-rental.html"><img src=${image} alt="car" class="img-fluid w-100"></a>
+                              <a href="car-rental"><img src=${image} alt="car" class="img-fluid w-100"></a>
                           </div>
                           <div class="filter-card-content">
                               <div class="price-btn text-end position-relative">
                                   <span class="small-btn-meta">$${vehiclerate} / Day</span>
                               </div>
-                              <a href="car-rental.html" class="mt-4 d-block">
+                              <a href="car-rental" class="mt-4 d-block">
                                   <h5>${vehicleMake} ${vehicleModel}</h5>
                               </a>
                               <span class="meta-content"><strong>Max rent period:</strong> <a href="#">${rentperiod}</a></span>   
@@ -855,7 +855,7 @@ if (protectedPages.includes(window.location.pathname)) {
                                       ${vehicleFuel}
                                   </div>
                               </div>
-                              <a href="car-rental.html?q=${vehicleId}" class="btn outline-btn btn-sm d-block">View Details</a>
+                              <a href="car-rental?q=${vehicleId}" class="btn outline-btn btn-sm d-block">View Details</a>
                           </div>
                       </div>
                       `;
@@ -919,7 +919,7 @@ if (protectedPages.includes(window.location.pathname)) {
                   console.log(t);
                   // redirect to checkout page
                   setTimeout(() => {
-                    window.location.href = `checkout.html?t=${t}`;
+                    window.location.href = `checkout?t=${t}`;
                   }, 1000);
                 }
               })
@@ -976,7 +976,7 @@ if (protectedPages.includes(window.location.pathname)) {
           Toastifymessage('success', 'Vehicle Listing Successful, Please await verification');  
           console.log(response.data);
           setTimeout(() => {
-            window.location.href = "/accounts/dashboard.html";
+            window.location.href = "/accounts/dashboard";
           }, 2000);
           carlistingform.reset();
         })
@@ -1384,9 +1384,9 @@ if (protectedPages.includes(window.location.pathname)) {
           if (bookingStatus === 'Pending' && paymentStatus === 'Pending') {
             let redirectpage;
             if (thisUser === 'host') {
-              redirectpage = 'ride-detail.html'
+              redirectpage = 'ride-detail'
             } else {
-              redirectpage = 'checkout.html'
+              redirectpage = 'checkout'
             }
             state = 'Pending';
             iconcolor = 'text-danger';
@@ -1394,14 +1394,14 @@ if (protectedPages.includes(window.location.pathname)) {
           } else if (bookingStatus == 'Approved') {
             state = 'Approved'
             iconcolor = 'badge text-success';
-            page = `href = ${clientside_Url}/accounts/ride-detail.html?t=${booking_id}`
+            page = `href = ${clientside_Url}/accounts/ride-detail?t=${booking_id}`
           } else if (bookingStatus == 'Cancelled') {
             state = "Cancelled"
             iconcolor = 'text-warning';
           } else if ( bookingStatus === "Pending" && paymentStatus === 'Paid') {
             state = 'paid'
             iconcolor = 'badge text-info ';
-            page = `href = ${clientside_Url}/accounts/ride-detail.html?t=${booking_id}`
+            page = `href = ${clientside_Url}/accounts/ride-detail?t=${booking_id}`
           } 
 
 
@@ -1412,7 +1412,7 @@ if (protectedPages.includes(window.location.pathname)) {
                         <td class="text-truncate">${fromLocation}</td>
                         <td>${startDate}</td>
                         <td><a  ${page} class=" ${iconcolor} fs-lg ps-0">${state}</a></td>
-                        <!-- <td><a href="checkout.html?t=${booking_id}" class="">View</a></td> -->
+                        <!-- <td><a href="checkout?t=${booking_id}" class="">View</a></td> -->
                     </tr>
                   `             
         }
@@ -1581,7 +1581,7 @@ if (protectedPages.includes(window.location.pathname)) {
     const data = { tx_ref, transaction_id, status };
     axios.post(base_URL_Payment + `/verifyflutterwavepayment/${userId}`, data, { headers })
       .then(response => {
-        window.location.href = `${clientside_Url}/accounts/profile.html#booking`;
+        window.location.href = `${clientside_Url}/accounts/profile#booking`;
 
         Toastifymessage("success", 'Payment verified succesfully'); 
       })
@@ -1686,7 +1686,7 @@ if (protectedPages.includes(window.location.pathname)) {
                   Toastifymessage("success", 'Booking cancelled succesfully');
                   // redirect to profile page in 1 second
                   setTimeout(() => {
-                    window.location.href = `${clientside_Url}/accounts/profile.html#bookings`;                   
+                    window.location.href = `${clientside_Url}/accounts/profile#bookings`;                   
                   }, 1000);
                 } else {
                   Toastifymessage("error", 'Booking approval failed');
@@ -1713,7 +1713,7 @@ if (protectedPages.includes(window.location.pathname)) {
               console.log(response.data);
               // redirect to profile page in 1 second
               setTimeout(() => {
-                window.location.href = `${clientside_Url}/accounts/profile.html#bookings`;
+                window.location.href = `${clientside_Url}/accounts/profile#bookings`;
               }, 1000);
             })
             .catch(error => {
