@@ -4,7 +4,7 @@ let base_URL = "http://127.0.0.1:8081/api/v1";
 let base_URL_Auth = `${base_URL}/auth`;
 let base_URL_Vehicle = `${base_URL}/vehicle`;
 let base_URL_Host = `${base_URL}/host`;
-let clientside_Url = "http://127.0.0.1:5500";
+let clientside_Url = "https://iemmanuel104.github.io/TaximaniaUI";
 let base_URL_booking = `${base_URL}/bookings`;
 let base_URL_Payment = `${base_URL}/Payments`;
 
@@ -321,7 +321,7 @@ if (loginform) {
         localStorage.setItem('userId', response.data.user.user_id);
 
         setTimeout(() => {
-          window.location.href = `${clientside_Url}/accounts/index`
+          window.location.href = `${clientside_Url}/accounts/dashboard`
         }, 2000);
 
         loginform.reset();
@@ -338,7 +338,7 @@ if (loginform) {
 // =================== DASHBOAR AREA START ======================
 
 const protectedPages = [
-  '/accounts/index',
+  '/accounts/dashboard',
   '/accounts/car-listing',
   '/accounts/car-rental',
   '/accounts/checkout',
@@ -346,7 +346,7 @@ const protectedPages = [
   '/accounts/ride-detail',
 ];
 
-// ============ index PAGES ==================
+// ============ DASHBOARD PAGES ==================
 
 // check if on load the current page's pathname is in the protectedPages list
 
@@ -402,9 +402,9 @@ if (protectedPages.includes(window.location.pathname)) {
     }
   })        
 
-  // ================== MAIN index ================
-  if (window.location.href.indexOf("index") > -1) {
-    console.log('index page');
+  // ================== MAIN DASHBOARD ================
+  if (window.location.href.indexOf("dashboard") > -1) {
+    console.log('dashboard page');
     // populate car booking section
     const headers = {
       'Content-Type': 'application/json',
@@ -976,7 +976,7 @@ if (protectedPages.includes(window.location.pathname)) {
           Toastifymessage('success', 'Vehicle Listing Successful, Please await verification');  
           console.log(response.data);
           setTimeout(() => {
-            window.location.href = "/accounts/index";
+            window.location.href = "/accounts/dashboard";
           }, 2000);
           carlistingform.reset();
         })
