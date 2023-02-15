@@ -321,7 +321,7 @@ if (loginform) {
         localStorage.setItem('userId', response.data.user.user_id);
 
         setTimeout(() => {
-          window.location.href = `${window.location.origin}/accounts/dashboard`
+          window.location.href = `${clientside_Url}/accounts/dashboard`
         }, 2000);
 
         loginform.reset();
