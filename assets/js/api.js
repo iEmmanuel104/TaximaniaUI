@@ -1,10 +1,10 @@
 (function ($) {
   "use strict";
-let base_URL = "http://127.0.0.1:8081/api/v1";
+let base_URL = "https://taximania-api-pae2.onrender.com/api/v1";
 let base_URL_Auth = `${base_URL}/auth`;
 let base_URL_Vehicle = `${base_URL}/vehicle`;
 let base_URL_Host = `${base_URL}/host`;
-let clientside_Url = "https://iemmanuel104.github.io/TaximaniaUI";
+  let clientside_Url = "https://taximania-main.onrender.com";
 let base_URL_booking = `${base_URL}/bookings`;
 let base_URL_Payment = `${base_URL}/Payments`;
 
