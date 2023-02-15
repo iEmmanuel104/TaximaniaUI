@@ -1,9 +1,9 @@
-let base_URL = "http://127.0.0.1:8081/api/v1";
+let base_URL = "https://taximania-api-pae2.onrender.com/api/v1";
 let base_URL_Auth = `${base_URL}/admin_auth`;
 let base_URL_Action = `${base_URL}/admin_actions`;
 let base_URL_Vehicle = `${base_URL}/vehicle`;
 let base_URL_Host = `${base_URL}/host`;
-let clientside_Url = "http://127.0.0.1:5500";
+let clientside_Url = "https://taximania-main.onrender.com";
 let base_URL_booking = `${base_URL}/bookings`;
 let base_URL_Payment = `${base_URL}/Payments`;
 
@@ -49,7 +49,7 @@ const axiosErrorHandling = (error) => {
             Toastifymessage('info', 'Session expired, please login again');
             clearLocalStorage();
             setTimeout(() => {
-                window.location.href = clientside_Url + "/login.html";
+                window.location.href = clientside_Url + "/login";
             }, 1000);
         }
         if (error.response.data.msg) {
@@ -83,7 +83,7 @@ const setEmailInputValue = () => {
 
 // ===================== ADMIN AUTH AUTH =====================
 
-if (window.location.href.indexOf('auth.html') > -1) {
+if (window.location.href.indexOf('auth') > -1) {
     const toggleForm = () => {
         const container = document.querySelector('.container');
         container.classList.toggle('active');
@@ -223,7 +223,7 @@ if (AloginForm) {
                 // page redirect to admin dashboard
                 setTimeout(() => {
                     // reload the page
-                    window.location.href = '/iadmin/dashboard.html';
+                    window.location.href = '/iadmin/dashboard';
                 }, 1000);
 
             })
@@ -239,7 +239,7 @@ if (AloginForm) {
 }
 
 // ===================== ADMIN DASHBOARD AREA =====================
-if (window.location.href.indexOf('dashboard.html') > -1) {
+if (window.location.href.indexOf('dashboard') > -1) {
 
     // ===================== ADMIN ACCORDION STYLES =====================
     var coll = document.getElementsByClassName("collapse");
