@@ -84,6 +84,7 @@ const setEmailInputValue = () => {
 // ===================== ADMIN AUTH AUTH =====================
 
 if (window.location.href.indexOf('auth') > -1) {
+    console.log('auth page');
     const toggleForm = () => {
         const container = document.querySelector('.container');
         container.classList.toggle('active');
@@ -240,6 +241,7 @@ if (AloginForm) {
 
 // ===================== ADMIN DASHBOARD AREA =====================
 if (window.location.href.indexOf('dashboard') > -1) {
+    console.log('dashboard page');
 
     // ===================== ADMIN ACCORDION STYLES =====================
     var coll = document.getElementsByClassName("collapse");
