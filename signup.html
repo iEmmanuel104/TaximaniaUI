@@ -209,7 +209,7 @@
 
                                     <label><input type="checkbox" id="agedeclaration" class="me-1" required>I am of legal driving age</label>
 
-                                    <label><input type="checkbox" id="terms" class="me-1" required>I agree to the <a href="#">Terms & Conditions</a></label>
+                                    <label><input type="checkbox" id="terms" class="me-1" required>I agree to the <a id="terms_cond" href="">Terms & Conditions</a></label>
                                     <!-- <a href="#" class="forgot-pass">Forgot Password</a> -->
                                 </div>
                                 <div class="login-btns d-flex align-items-center flex-wrap flex-sm-nowrap mt-40">
@@ -415,6 +415,98 @@
             </div>
         </div>
     </div>
+    <div id="termsModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="cashPayModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" >Taximania Terms of Service</h5>                 
+                </div>
+                <div class="modal-body">
+
+                    <h4>Definition of Terms</h4>
+                    <p>Host: vehicle owner who rents/hires their vehicle through Taximania</p>
+                    <p>Guests: users and companies who hire/rent vehicles through Taximania</p>
+                    <h4>Requirements:</h4>
+                    <p>The following are required information to hire a vehicle on Taximania:</p>
+                    <ul>
+                        <li>First name</li>
+                        <li>Last name</li>
+                        <li>Employer & Branch</li>
+                        <li>Residential house Number</li>
+                        <li>Street Name</li>
+                        <li>Area</li>
+                        <li>Town / City</li>
+                        <li>Phone No</li>
+                        <li>Email address</li>
+                        <li>A copy of your valid driver’s license (validity of up to 2 years)</li>
+                        <li>National Registration Card (NRC) or International Passport</li>
+                    </ul>
+                    <h4>Use of Vehicles:</h4>
+                    <p>When picking up a vehicle, you must present the host, Taximania, or any of Taximania with a current, valid
+                        driver’s license and National Registration Card (NRC) or International Passport.</p>
+                    <p>You must exercise reasonable care in your use of the vehicle.</p>
+                    <p>You are required at all times to operate the vehicle safely, and in compliance with all applicable laws,
+                        including without limitation, speed limits and prohibitions on impaired or distracted driving.</p>
+                    <p>In the event that Taximania has any concern about your use of a vehicle, Taximania may terminate your
+                        rental/hire in its discretion at any time and require the return of the vehicle, including recovering the
+                        vehicle on behalf of the host.</p>
+                    <p>You are required to wear seat belts during the operation of the vehicle and to require that all of your
+                        passengers wear seat belts.</p>
+                    <p>You must not leave the car unlocked or with the keys unsecured (such as in the ignition).</p>
+                    <p>You must not engage in any prohibited used with any vehicle you book through the Services.</p>
+                    <p>When you book a vehicle on the Services, you must use the vehicle only for your personal use and not for any
+                        commercial purpose (car-sharing services like Yango and Ulendo) unless you have express written permission
+                        from the Taximania Legal Department in advance.</p>
+                    <p>You must not remove or replace any vehicle parts in vehicles hired from the Taximania service.</p>
+                    <p>If you misuse a vehicle, you will be fully financially responsible for any related claims, loss, or damage.
+                    </p>
+                    <h4>Vehicle Theft</h4>
+                    <p>The following conduct may result in the reporting of the vehicle you have booked as stolen to law
+                        enforcement, possibly subjecting you and any other driver to arrest, and civil and/or criminal penalties,
+                        and the voiding of your protection plan:</p>
+                    <ul>
+                        <li>If you fail to return the vehicle you booked at the time and place agreed upon with the host and/or
+                            designated in your reservation</li>
+                        <li>If you do not return the vehicle by the end of the reservation period and you have not properly obtained
+                            an extension of the reservation through the Services</li>
+                        <li>If the vehicle is returned to any place other than the agreed-upon location without prior authorization from Taximania</li>
+                        <li>If you use the vehicle for any illegal purpose, including the transportation of a controlled substance, illegal
+                            fireworks, stolen goods, or any other illegal item or material</li>
+                        <li>If you are in violation of any part of the terms of service, including without limitation, the requirements,
+                            prohibited uses, or age restrictions, or have engaged in conduct that indicates you are using the vehicle to commit
+                            a crime</li>
+                    </ul>
+                    <h4>Cancellation Policy</h4>
+                    <p>Cancellations will be free of charge for 24 hours after the booking is made, as long as it is at least 24 hours
+                        before the booking's start time.</p>
+                    <p>If you cancel the booking less than 24 hours before the booking's start time, or if you fail to show up or are late,
+                        you will be charged the full booking price and service fee, as well as any additional charges related to the
+                        cancellation or no-show.</p>
+                    <h4>Limitations of Liability</h4>
+                    <p>Taximania is not responsible for any direct, indirect, incidental, special, or consequential damages that arise from
+                        your use of the Services, including without limitation, any economic loss, injury, illness, or death.</p>
+                    <p>Taximania is not responsible for any loss or damage to personal property, including without limitation, lost, stolen,
+                        or damaged goods, or any personal injury that may result from your use of the Services.</p>
+                    <p>Taximania is not responsible for any errors or inaccuracies in the information provided on the Services, including
+                        without limitation, the availability or condition of any vehicle.</p>
+                    <p>Taximania is not responsible for any failure or delay in performing its obligations under these terms of service that
+                        is caused by events beyond its reasonable control, including without limitation, strikes, lockouts, or other labor
+                        disputes, internet or other service provider failures or delays, or any act of God.</p>
+                    <h4>Indemnification</h4>
+                    <p>You agree to indemnify, defend, and hold harmless Taximania, its affiliates, and their respective directors,
+                        officers, employees, and agents from and against all claims, liabilities, damages, and expenses (including without
+                        limitation, reasonable attorneys' fees and costs) arising out of or related to your use of the Services or your
+                        breach of these terms of service.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="modal-close" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!--scrolltop button-->
     <button class="theme-scrolltop-btn"><i class="fa-regular fa-hand-pointer"></i></button>
     <!--scrolltop button end-->

@@ -170,7 +170,8 @@ const restrictpages = (usertype) => {
 
 //  ============== HOST REGISTER ================== 
 
-if (form) {    
+if (form) {   
+ 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
   const data = {

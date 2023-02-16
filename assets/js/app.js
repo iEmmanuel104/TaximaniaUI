@@ -943,7 +943,9 @@
     $("#modal-close").click(function () {
       $("#modal-overlay").remove();
       $("#cashPayModal").remove();
+      $("#termsModal").remove();
       $("#vehicleDetailsModal")
+
       $('.modal-backdrop').remove();
     });
   });
@@ -998,6 +1000,15 @@ $(document).ready(function () {
       $('#reviewInput').val('');
     });
   });
+
+  $(document).ready(function () {
+    $("#terms_cond").click(function (event) {
+      event.preventDefault();
+      console.log('clicked');
+      $("#termsModal").modal('show');
+    });
+  });
+
 
 
 
