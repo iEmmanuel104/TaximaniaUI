@@ -1325,9 +1325,11 @@ if (protectedPages.includes(window.location.pathname)) {
               const vehicleStatus = document.getElementById(`status_${vehicleId}`).value;
               const vehicleDescription = document.getElementById(`description_${vehicleId}`).value;
               const vehicleLocation = document.getElementById(`location_${vehicleId}`).value;
+              const rentperiod = document.getElementById(`rentperiod_${vehicleId}`).value;
+              const vehiclerate = document.getElementById(`BookingAmount_${vehicleId}`).value;
 
 
-              const data = { vehicleStatus, vehicleDescription, vehicleLocation };
+              const data = { vehicleStatus, vehicleDescription, vehicleLocation, rentperiod, vehiclerate };
               const headers = {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
