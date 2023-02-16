@@ -242,6 +242,7 @@ if (AloginForm) {
 // ===================== ADMIN DASHBOARD AREA =====================
 if (window.location.href.indexOf('dashboard') > -1) {
     console.log('dashboard page');
+    
 
     // ===================== ADMIN ACCORDION STYLES =====================
     var coll = document.getElementsByClassName("collapse");
