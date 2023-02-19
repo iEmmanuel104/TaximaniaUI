@@ -85,7 +85,8 @@ const setEmailInputValue = () => {
 
 if (window.location.href.indexOf('auth') > -1) {
     console.log('auth page');
-    const toggleForm = () => {
+    const toggleForm = (event) => {
+        event.preventDefault();
         const container = document.querySelector('.container');
         container.classList.toggle('active');
     };
