@@ -1,12 +1,32 @@
 (function ($) {
   "use strict";
-let base_URL = "https://taximania-api-pae2.onrender.com/api/v1";
-let base_URL_Auth = `${base_URL}/auth`;
-let base_URL_Vehicle = `${base_URL}/vehicle`;
-let base_URL_Host = `${base_URL}/host`;
-let clientside_Url = "https://taximania-main.onrender.com";
-let base_URL_booking = `${base_URL}/bookings`;
-let base_URL_Payment = `${base_URL}/Payments`;
+  // Base URLs
+  let base_URL = "";
+  let base_URL_Auth = "";
+  let base_URL_Vehicle = "";
+  let base_URL_Host = "";
+  let base_URL_booking = "";
+  let base_URL_Payment = "";
+  let clientside_Url;
+
+  // Determine the base URL based on the current environment
+  if (window.location.origin === "https://taximania-main.onrender.com") {
+    // Taximania URL
+    base_URL = "https://taximania-api-pae2.onrender.com/api/v1";
+    clientside_Url = "https://taximania-main.onrender.com";
+  } else {
+    // Localhost
+    base_URL = "http://127.0.0.1:8081/api/v1";
+    clientside_Url = "http://127.0.0.1:5500";
+  }
+
+  // Construct the API endpoints
+  base_URL_Auth = `${base_URL}/auth`;
+  base_URL_Vehicle = `${base_URL}/vehicle`;
+  base_URL_Host = `${base_URL}/host`;
+  base_URL_booking = `${base_URL}/bookings`;
+  base_URL_Payment = `${base_URL}/Payments`;
+
 
 const form = document.getElementById('signup-form');
 const verifyform = document.getElementById('verify-form');
